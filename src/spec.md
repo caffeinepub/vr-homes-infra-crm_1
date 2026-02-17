@@ -1,11 +1,10 @@
 # Specification
 
 ## Summary
-**Goal:** Make the unified login page UI more colorful while keeping all existing login behavior unchanged.
+**Goal:** Improve clarity of the session setup failure message on Login and rearrange Admin/Agent dashboard tabs for better accessibility without changing behavior.
 
 **Planned changes:**
-- Update `frontend/src/pages/LoginPage.tsx` styling to use a vibrant multi-color gradient background with improved visual hierarchy.
-- Strengthen accent colors for the icon, login card, Admin/Agent toggle section, and primary “Sign In with Internet Identity” button while preserving readability/contrast in both light and dark themes.
-- Ensure the page remains responsive and that loading and profile-setup dialog states retain their current layout and behavior.
+- Update the Login page’s session-initialization failure UI copy to exactly: "Session Setup failed, kindly refresh it." and change the primary action label to a refresh-oriented label while keeping the existing full page reload behavior unchanged.
+- Reorder (move) the existing tabs/panels on the Admin Dashboard and Agent Dashboard to a clearer sequence, without removing any tabs or changing panel functionality/content.
 
-**User-visible outcome:** The login page at route `/` looks noticeably more vibrant and modern (colorful gradient + accents) across mobile and desktop, while sign-in, toggle, loading, and profile setup all work exactly as before.
+**User-visible outcome:** Users see clearer guidance when session setup fails (with a refresh-labeled action that still reloads the page), and Admin/Agent dashboards present the same panels in a reorganized, easier-to-reach tab order.

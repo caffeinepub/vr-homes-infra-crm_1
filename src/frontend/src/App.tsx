@@ -28,15 +28,38 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { identity, isInitializing } = useInternetIdentity();
   const { actor, isFetching: actorFetching } = useActor();
 
-  if (isInitializing || actorFetching) {
+  // Show loading while initializing
+  if (isInitializing) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        <div className="flex flex-col items-center gap-4">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+          <p className="text-sm text-muted-foreground">Initializing...</p>
+        </div>
       </div>
     );
   }
 
-  if (!identity || !actor) {
+  // Redirect to login if no identity
+  if (!identity) {
+    return <Navigate to="/" />;
+  }
+
+  // Show loading while actor is being created
+  if (actorFetching) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="flex flex-col items-center gap-4">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+          <p className="text-sm text-muted-foreground">Setting up session...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // If identity exists but actor failed to initialize, redirect to login
+  // The login page will handle showing the appropriate error
+  if (!actor) {
     return <Navigate to="/" />;
   }
 
@@ -45,15 +68,23 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
 
 // Admin route wrapper
 function AdminRoute({ children }: { children: React.ReactNode }) {
-  const { data: userRole, isLoading: roleLoading } = useGetCallerUserRole();
-  const { data: userProfile, isLoading: profileLoading } = useGetCallerUserProfile();
+  const { data: userRole, isLoading: roleLoading, isError: roleError } = useGetCallerUserRole();
+  const { data: userProfile, isLoading: profileLoading, isError: profileError } = useGetCallerUserProfile();
 
   if (roleLoading || profileLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        <div className="flex flex-col items-center gap-4">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+          <p className="text-sm text-muted-foreground">Loading dashboard...</p>
+        </div>
       </div>
     );
+  }
+
+  // Handle query errors gracefully
+  if (roleError || profileError) {
+    return <Navigate to="/" />;
   }
 
   if (userRole !== 'admin') {
@@ -70,16 +101,24 @@ function AdminRoute({ children }: { children: React.ReactNode }) {
 // Agent route wrapper
 function AgentRoute({ children }: { children: React.ReactNode }) {
   const { identity } = useInternetIdentity();
-  const { data: userRole, isLoading: roleLoading } = useGetCallerUserRole();
-  const { data: userProfile, isLoading: profileLoading } = useGetCallerUserProfile();
-  const { data: agentDetails, isLoading: agentLoading } = useGetAgentDetails(identity?.getPrincipal());
+  const { data: userRole, isLoading: roleLoading, isError: roleError } = useGetCallerUserRole();
+  const { data: userProfile, isLoading: profileLoading, isError: profileError } = useGetCallerUserProfile();
+  const { data: agentDetails, isLoading: agentLoading, isError: agentError } = useGetAgentDetails(identity?.getPrincipal());
 
   if (roleLoading || profileLoading || agentLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        <div className="flex flex-col items-center gap-4">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+          <p className="text-sm text-muted-foreground">Loading dashboard...</p>
+        </div>
       </div>
     );
+  }
+
+  // Handle query errors gracefully
+  if (roleError || profileError || agentError) {
+    return <Navigate to="/" />;
   }
 
   if (userRole === 'admin') {

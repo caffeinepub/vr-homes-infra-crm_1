@@ -43,6 +43,14 @@ export default {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))"
         },
+        success: {
+          DEFAULT: "hsl(var(--success))",
+          foreground: "hsl(var(--success-foreground))"
+        },
+        warning: {
+          DEFAULT: "hsl(var(--warning))",
+          foreground: "hsl(var(--warning-foreground))"
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -61,6 +69,13 @@ export default {
           start: "var(--heading-gradient-start)",
           mid: "var(--heading-gradient-mid)",
           end: "var(--heading-gradient-end)"
+        },
+        "text-accent": {
+          primary: "var(--text-accent-primary)",
+          secondary: "var(--text-accent-secondary)",
+          tertiary: "var(--text-accent-tertiary)",
+          success: "var(--text-accent-success)",
+          warning: "var(--text-accent-warning)"
         }
       },
       boxShadow: {

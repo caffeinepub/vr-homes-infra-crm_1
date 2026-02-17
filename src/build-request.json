@@ -1,68 +1,59 @@
 {
   "kind": "build_request",
-  "title": "Make Login Page and Headings More Colorful",
+  "title": "Update session setup failure wording and rearrange Admin/Agent dashboard panels",
   "projectName": "VR Homes Infra CRM",
   "priority": "normal",
   "requirements": [
     {
-      "id": "REQ-22",
-      "text": "Update the Login page theme styling to be clearly more colorful while keeping all existing login behavior unchanged (Internet Identity sign-in, Admin/Agent toggle, loading state, profile setup dialog, and agent registration dialog). This must be implemented via theme tokens/CSS and existing components so the layout and logic remain the same.",
+      "id": "REQ-34",
+      "text": "Update the Login page session-initialization failure UI so the user-facing copy matches the user request: show the failure message as \"Session Setup failed, kindly refresh it.\" and update the primary action label to a refresh-oriented label (e.g., \"Refresh\" / \"Refresh this\") while keeping the existing reload behavior unchanged.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-3"
+          "msg-4"
         ],
         "quotes": [
-          "Make the colourfull the headings / login page also should be colourful"
+          "\"Session Setup failed \" refresh this."
         ]
       },
       "acceptanceCriteria": [
-        "Login screen background (PageTheme variant=\"login\") renders a visibly colorful background (e.g., gradient) in both light and dark mode with no white/un-styled gaps around the viewport.",
-        "All existing Login page user flows remain unchanged: Admin/Agent toggle still works, Internet Identity sign-in still works, loading screen still appears, profile setup dialog still appears when required, and agent registration dialog still appears when applicable.",
-        "The Login card content remains readable over the new colorful background (text contrast is acceptable in light and dark modes)."
+        "When the app is in the existing session setup failure state (identity exists, actor is not created, and actor is not fetching) in frontend/src/pages/LoginPage.tsx, the description text displayed to users is exactly: \"Session Setup failed, kindly refresh it.\"",
+        "The primary button in this state clearly communicates refreshing (label uses English and matches the intent \"refresh this\") and still triggers a full page reload (window.location.reload()).",
+        "No authentication logic, routing logic, or actor initialization logic is changed—only the user-facing text/labels in the failure UI."
       ]
     },
     {
-      "id": "REQ-23",
-      "text": "Make primary headings across the app (e.g., page titles and section headers) more colorful and higher-contrast using a consistent theme-driven style, including the Login page title and the Admin/Agent dashboard titles, without changing any page structure or text content.",
+      "id": "REQ-35",
+      "text": "Rearrange (move) the dashboard panels in both Admin Dashboard and Agent Dashboard by changing the tab order and layout so all panels are clearly reachable and appear in the requested arrangement, without removing any existing panels or changing their functionality.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-3"
+          "msg-4"
         ],
         "quotes": [
-          "Make the colourfull the headings / login page also should be colourful"
+          "Kindly move those panels  both of Admin dashboard and agent dashboard."
         ]
       },
       "acceptanceCriteria": [
-        "Login page title (\"VR Homes Infra CRM\") and dashboard titles (e.g., \"Admin Dashboard\", \"Agent Dashboard\") use a visibly more colorful heading style (e.g., accent/gradient text or accent underline) driven by theme tokens (not hard-coded one-off colors).",
-        "Heading styling remains readable and consistent in both light and dark mode (no low-contrast heading text).",
-        "No changes to routing, authentication logic, backend calls, or role/status enforcement are introduced by the heading styling updates."
+        "Admin dashboard tabs in frontend/src/pages/admin/AdminDashboardPage.tsx are reordered to a clearer, intentional sequence (keep all existing tabs: Overview, Agents, Master Data, Follow-Ups, Export; only their placement/order changes).",
+        "Agent dashboard tabs in frontend/src/pages/agent/AgentDashboardPage.tsx are reordered to a clearer, intentional sequence (keep all existing tabs: Overview, Leads & Owners, Follow-ups; only their placement/order changes).",
+        "All tab content still renders the same existing panel components (no panel is removed or replaced).",
+        "Tab bar remains responsive (wraps as needed) and all labels remain in English."
       ]
     }
   ],
   "constraints": [
-    "Do not change any authentication/onboarding behavior or routing logic; changes must be styling/theme only.",
-    "Do not edit any frontend immutable paths (frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, frontend/src/components/ui/*).",
-    "Use English for all user-facing text (do not introduce non-English strings)."
+    "Frontend immutable paths must not be modified (including frontend/src/hooks/useInternetIdentity.ts(x), frontend/src/hooks/useActor.ts, frontend/src/main.tsx, and frontend/src/components/ui sources).",
+    "Keep all existing authentication/onboarding/routing behavior unchanged; only adjust user-facing text and dashboard panel placement/order.",
+    "Use English for all user-facing text."
   ],
   "nonGoals": [
-    "Backend changes (Motoko actor APIs, state, or authorization rules).",
-    "Adding new pages, new roles, or altering Admin/Agent access rules.",
-    "Introducing new third-party UI libraries or changing the routing/layout structure."
+    "Adding new dashboard panels or new routes.",
+    "Changing backend data models, authorization, or APIs.",
+    "Implementing drag-and-drop panel customization (only reorder/move existing panels as part of the fixed layout)."
   ],
   "imageRequirements": {
     "required": [],
     "edits": []
-  },
-  "userProfileUpdate": {
-    "goalsToAdd": [],
-    "goalsToRemove": [],
-    "preferencesToAdd": [],
-    "preferencesToRemove": [],
-    "miscToAdd": [],
-    "miscToRemove": [],
-    "fieldsToSet": {},
-    "fieldsToDelete": []
   }
 }

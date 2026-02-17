@@ -1,46 +1,56 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import AdminOverviewPanel from './panels/AdminOverviewPanel';
 import AgentManagementPanel from './panels/AgentManagementPanel';
+import ExportCenterPanel from './panels/ExportCenterPanel';
 import MasterDataPanel from './panels/MasterDataPanel';
 import GlobalFollowUpsPanel from './panels/GlobalFollowUpsPanel';
-import ExportCenterPanel from './panels/ExportCenterPanel';
 
 export default function AdminDashboardPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold heading-colorful">Admin Dashboard</h1>
-        <p className="text-muted-foreground mt-1">
+        <h1 className="text-3xl font-bold heading-colorful mb-2">Admin Dashboard</h1>
+        <p className="text-muted-foreground text-colorful-secondary">
           Manage your real estate operations and team
         </p>
       </div>
 
-      <Tabs defaultValue="overview" className="space-y-4">
-        <TabsList className="grid w-full grid-cols-5 lg:w-auto">
-          <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="agents">Agents</TabsTrigger>
-          <TabsTrigger value="data">Master Data</TabsTrigger>
-          <TabsTrigger value="followups">Follow-ups</TabsTrigger>
-          <TabsTrigger value="export">Export</TabsTrigger>
+      <Tabs defaultValue="overview" className="space-y-6">
+        <TabsList className="dashboard-tabs-list">
+          <TabsTrigger value="overview" className="dashboard-tab-trigger">
+            Overview
+          </TabsTrigger>
+          <TabsTrigger value="master-data" className="dashboard-tab-trigger">
+            Master Data
+          </TabsTrigger>
+          <TabsTrigger value="agents" className="dashboard-tab-trigger">
+            Agents
+          </TabsTrigger>
+          <TabsTrigger value="followups" className="dashboard-tab-trigger">
+            Follow-Ups
+          </TabsTrigger>
+          <TabsTrigger value="export" className="dashboard-tab-trigger">
+            Export
+          </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="overview" className="panel-surface p-6">
+        <TabsContent value="overview" className="dashboard-panel-surface p-6">
           <AdminOverviewPanel />
         </TabsContent>
 
-        <TabsContent value="agents" className="panel-surface p-6">
-          <AgentManagementPanel />
-        </TabsContent>
-
-        <TabsContent value="data" className="panel-surface p-6">
+        <TabsContent value="master-data" className="dashboard-panel-surface p-6">
           <MasterDataPanel />
         </TabsContent>
 
-        <TabsContent value="followups" className="panel-surface p-6">
+        <TabsContent value="agents" className="dashboard-panel-surface p-6">
+          <AgentManagementPanel />
+        </TabsContent>
+
+        <TabsContent value="followups" className="dashboard-panel-surface p-6">
           <GlobalFollowUpsPanel />
         </TabsContent>
 
-        <TabsContent value="export" className="panel-surface p-6">
+        <TabsContent value="export" className="dashboard-panel-surface p-6">
           <ExportCenterPanel />
         </TabsContent>
       </Tabs>

@@ -33,36 +33,36 @@ export default function AgentOverviewPanel() {
 
   return (
     <div className="grid gap-4 md:grid-cols-3">
-      <Card className="bg-card/50">
+      <Card className="bg-card/50 border-2 border-primary/20">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">My Leads</CardTitle>
-          <TrendingUp className="h-4 w-4 text-muted-foreground" />
+          <CardTitle className="text-sm font-medium text-colorful-primary">My Leads</CardTitle>
+          <TrendingUp className="h-4 w-4 text-[var(--text-accent-primary)]" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">{leads.length}</div>
-          <p className="text-xs text-muted-foreground">Total leads assigned to you</p>
+          <div className="text-2xl font-bold text-colorful-primary">{leads.length}</div>
+          <p className="text-xs text-colorful-secondary">Total leads assigned to you</p>
         </CardContent>
       </Card>
 
-      <Card className="bg-card/50">
+      <Card className="bg-card/50 border-2 border-primary/20">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">My Owners</CardTitle>
-          <Users className="h-4 w-4 text-muted-foreground" />
+          <CardTitle className="text-sm font-medium text-colorful-tertiary">My Owners</CardTitle>
+          <Users className="h-4 w-4 text-[var(--text-accent-tertiary)]" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">{owners.length}</div>
-          <p className="text-xs text-muted-foreground">Property owners you manage</p>
+          <div className="text-2xl font-bold text-colorful-tertiary">{owners.length}</div>
+          <p className="text-xs text-colorful-secondary">Property owners you manage</p>
         </CardContent>
       </Card>
 
-      <Card className="bg-card/50">
+      <Card className="bg-card/50 border-2 border-primary/20">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Follow-ups Today</CardTitle>
-          <Calendar className="h-4 w-4 text-muted-foreground" />
+          <CardTitle className="text-sm font-medium text-colorful-warning">Follow-ups Today</CardTitle>
+          <Calendar className="h-4 w-4 text-[var(--text-accent-warning)]" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">{followUpsToday}</div>
-          <p className="text-xs text-muted-foreground">Tasks scheduled for today</p>
+          <div className="text-2xl font-bold text-colorful-warning">{followUpsToday}</div>
+          <p className="text-xs text-colorful-secondary">Tasks scheduled for today</p>
         </CardContent>
       </Card>
     </div>

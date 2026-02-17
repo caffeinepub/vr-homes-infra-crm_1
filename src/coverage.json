@@ -1,7 +1,7 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-17T17:03:57.984Z",
+  "generatedAt": "2026-02-17T18:08:37.094Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
@@ -11,35 +11,27 @@
     "implemented": 2,
     "items": [
       {
-        "id": "REQ-22",
-        "summary": "Update the Login page theme styling to be clearly more colorful while keeping all existing login behavior unchanged (Internet Identity sign-in, Admin/Agent toggle, loading state, profile setup dialog, and agent registration dialog). This must be implemented via theme tokens/CSS and existing components so the layout and logic remain the same.",
+        "id": "REQ-34",
+        "summary": "Update the Login page session-initialization failure UI so the user-facing copy matches the user request: show the failure message as \"Session Setup failed, kindly refresh it.\" and update the primary action label to a refresh-oriented label (e.g., \"Refresh\" / \"Refresh this\") while keeping the existing reload behavior unchanged.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/index.css",
           "frontend/src/pages/LoginPage.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/index.css",
           "frontend/src/pages/LoginPage.tsx"
         ]
       },
       {
-        "id": "REQ-23",
-        "summary": "Make primary headings across the app (e.g., page titles and section headers) more colorful and higher-contrast using a consistent theme-driven style, including the Login page title and the Admin/Agent dashboard titles, without changing any page structure or text content.",
+        "id": "REQ-35",
+        "summary": "Rearrange (move) the dashboard panels in both Admin Dashboard and Agent Dashboard by changing the tab order and layout so all panels are clearly reachable and appear in the requested arrangement, without removing any existing panels or changing their functionality.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/index.css",
-          "frontend/src/pages/LoginPage.tsx",
           "frontend/src/pages/admin/AdminDashboardPage.tsx",
-          "frontend/src/pages/agent/AgentDashboardPage.tsx",
-          "frontend/src/components/layout/AppLayout.tsx"
+          "frontend/src/pages/agent/AgentDashboardPage.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/index.css",
-          "frontend/src/pages/LoginPage.tsx",
           "frontend/src/pages/admin/AdminDashboardPage.tsx",
-          "frontend/src/pages/agent/AgentDashboardPage.tsx",
-          "frontend/src/components/layout/AppLayout.tsx"
+          "frontend/src/pages/agent/AgentDashboardPage.tsx"
         ]
       }
     ]
@@ -49,12 +41,9 @@
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
-    "frontend/src/components/layout/AppLayout.tsx",
-    "frontend/src/index.css",
     "frontend/src/pages/LoginPage.tsx",
     "frontend/src/pages/admin/AdminDashboardPage.tsx",
     "frontend/src/pages/agent/AgentDashboardPage.tsx",
-    "frontend/tailwind.config.js",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

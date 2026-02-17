@@ -2,10 +2,9 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-update-the-login-page-theme-styling-to-be-clearly-more-colorful-while-keeping-all-existing-login-behavior-unchanged-internet-identity-sign-in-admin-agent-toggle-loading-state-profile-setup-dialog-and-agent-registration-dialog-this-must-be-implemented-via-theme-tokens-css-and-existing-components-so-the-layout-and-logic-remain-the-same",
-      "featureTitle": "Update the Login page theme styling to be clearly more colorful while keeping all existing login behavior unchanged (Internet Identity sign-in, Admin/Agent toggle, loading state, profile setup dialog, and agent registration dialog). This must be implemented via theme tokens/CSS and existing components so the layout and logic remain the same.",
+      "featureId": "feature-update-the-login-page-session-initialization-failure-ui-so-the-user-facing-copy-matches-the-user-request-show-the-failure-message-as-session-setup-failed-kindly-refresh-it-and-update-the-primary-action-label-to-a-refresh-oriented-label-e-g-refresh-refresh-this-while-keeping-the-existing-reload-behavior-unchanged",
+      "featureTitle": "Update the Login page session-initialization failure UI so the user-facing copy matches the user request: show the failure message as \"Session Setup failed, kindly refresh it.\" and update the primary action label to a refresh-oriented label (e.g., \"Refresh\" / \"Refresh this\") while keeping the existing reload behavior unchanged.",
       "files": [
-        "frontend/src/index.css",
         "frontend/src/pages/LoginPage.tsx"
       ],
       "components": [
@@ -19,17 +18,14 @@
         "github-export-icp-cli@1.0.0"
       ],
       "testIds": [
-        "REQ-22"
+        "REQ-34"
       ],
       "confidence": "high"
     },
     {
-      "featureId": "feature-make-primary-headings-across-the-app-e-g-page-titles-and-section-headers-more-colorful-and-higher-contrast-using-a-consistent-theme-driven-style-including-the-login-page-title-and-the-admin-agent-dashboard-titles-without-changing-any-page-structure-or-text-content",
-      "featureTitle": "Make primary headings across the app (e.g., page titles and section headers) more colorful and higher-contrast using a consistent theme-driven style, including the Login page title and the Admin/Agent dashboard titles, without changing any page structure or text content.",
+      "featureId": "feature-rearrange-move-the-dashboard-panels-in-both-admin-dashboard-and-agent-dashboard-by-changing-the-tab-order-and-layout-so-all-panels-are-clearly-reachable-and-appear-in-the-requested-arrangement-without-removing-any-existing-panels-or-changing-their-functionality",
+      "featureTitle": "Rearrange (move) the dashboard panels in both Admin Dashboard and Agent Dashboard by changing the tab order and layout so all panels are clearly reachable and appear in the requested arrangement, without removing any existing panels or changing their functionality.",
       "files": [
-        "frontend/src/components/layout/AppLayout.tsx",
-        "frontend/src/index.css",
-        "frontend/src/pages/LoginPage.tsx",
         "frontend/src/pages/admin/AdminDashboardPage.tsx",
         "frontend/src/pages/agent/AgentDashboardPage.tsx"
       ],
@@ -44,7 +40,7 @@
         "github-export-icp-cli@1.0.0"
       ],
       "testIds": [
-        "REQ-23"
+        "REQ-35"
       ],
       "confidence": "high"
     }

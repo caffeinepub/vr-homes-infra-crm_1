@@ -38,54 +38,54 @@ export default function AdminOverviewPanel() {
   return (
     <div className="space-y-6">
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card className="bg-card/50">
+        <Card className="bg-card/50 border-2 border-primary/20">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Leads</CardTitle>
-            <TrendingUp className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium text-colorful-primary">Total Leads</CardTitle>
+            <TrendingUp className="h-4 w-4 text-[var(--text-accent-primary)]" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{totalLeads}</div>
-            <p className="text-xs text-muted-foreground">Active opportunities</p>
+            <div className="text-2xl font-bold text-colorful-primary">{totalLeads}</div>
+            <p className="text-xs text-colorful-secondary">Active opportunities</p>
           </CardContent>
         </Card>
 
-        <Card className="bg-card/50">
+        <Card className="bg-card/50 border-2 border-primary/20">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Active Agents</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium text-colorful-secondary">Active Agents</CardTitle>
+            <Users className="h-4 w-4 text-[var(--text-accent-secondary)]" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{activeAgents}</div>
-            <p className="text-xs text-muted-foreground">Out of {agents.length} total</p>
+            <div className="text-2xl font-bold text-colorful-secondary">{activeAgents}</div>
+            <p className="text-xs text-colorful-tertiary">Out of {agents.length} total</p>
           </CardContent>
         </Card>
 
-        <Card className="bg-card/50">
+        <Card className="bg-card/50 border-2 border-primary/20">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
-            <DollarSign className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium text-colorful-success">Total Revenue</CardTitle>
+            <DollarSign className="h-4 w-4 text-[var(--text-accent-success)]" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">₹{(totalRevenue / 100000).toFixed(1)}L</div>
-            <p className="text-xs text-muted-foreground">From all leads</p>
+            <div className="text-2xl font-bold text-colorful-success">₹{(totalRevenue / 100000).toFixed(1)}L</div>
+            <p className="text-xs text-colorful-secondary">From all leads</p>
           </CardContent>
         </Card>
 
-        <Card className="bg-card/50">
+        <Card className="bg-card/50 border-2 border-primary/20">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Pending Follow-ups</CardTitle>
-            <Calendar className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium text-colorful-warning">Pending Follow-ups</CardTitle>
+            <Calendar className="h-4 w-4 text-[var(--text-accent-warning)]" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{pendingFollowUps}</div>
-            <p className="text-xs text-muted-foreground">Require attention</p>
+            <div className="text-2xl font-bold text-colorful-warning">{pendingFollowUps}</div>
+            <p className="text-xs text-colorful-secondary">Require attention</p>
           </CardContent>
         </Card>
       </div>
 
-      <Card className="bg-card/50">
+      <Card className="bg-card/50 border-2 border-primary/20">
         <CardHeader>
-          <CardTitle>Sales vs Rent Trends</CardTitle>
+          <CardTitle className="text-colorful-primary">Sales vs Rent Trends</CardTitle>
         </CardHeader>
         <CardContent>
           <ChartContainer

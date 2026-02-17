@@ -2,14 +2,22 @@ export function downloadCSV(data: any[], filename: string) {
   if (data.length === 0) return;
 
   const headers = Object.keys(data[0]);
+  
+  // Escape CSV values properly
+  const escapeCSVValue = (value: any): string => {
+    if (value === null || value === undefined) return '';
+    const stringValue = String(value);
+    // If value contains comma, quote, or newline, wrap in quotes and escape internal quotes
+    if (stringValue.includes(',') || stringValue.includes('"') || stringValue.includes('\n') || stringValue.includes('\r')) {
+      return `"${stringValue.replace(/"/g, '""')}"`;
+    }
+    return stringValue;
+  };
+  
   const csvContent = [
-    headers.join(','),
+    headers.map(escapeCSVValue).join(','),
     ...data.map((row) =>
-      headers.map((header) => {
-        const value = row[header];
-        const stringValue = value === null || value === undefined ? '' : String(value);
-        return stringValue.includes(',') ? `"${stringValue}"` : stringValue;
-      }).join(',')
+      headers.map((header) => escapeCSVValue(row[header])).join(',')
     ),
   ].join('\n');
 
@@ -22,6 +30,7 @@ export function downloadCSV(data: any[], filename: string) {
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
+  URL.revokeObjectURL(url);
 }
 
 export function downloadExcel(data: any[], filename: string) {
@@ -44,4 +53,5 @@ export function downloadExcel(data: any[], filename: string) {
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
+  URL.revokeObjectURL(url);
 }

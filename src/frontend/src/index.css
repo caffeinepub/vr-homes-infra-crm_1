@@ -6,127 +6,171 @@
     :root {
         --radius: 0.5rem;
         
-        /* Core colors - Version 3 professional palette */
-        --background: oklch(0.99 0.005 240);
-        --foreground: oklch(0.25 0.02 260);
+        /* Core colors - Version 5 vibrant palette */
+        --background: oklch(0.98 0.01 280);
+        --foreground: oklch(0.20 0.05 270);
         --card: oklch(1 0 0);
-        --card-foreground: oklch(0.25 0.02 260);
+        --card-foreground: oklch(0.20 0.05 270);
         --popover: oklch(1 0 0);
-        --popover-foreground: oklch(0.25 0.02 260);
+        --popover-foreground: oklch(0.20 0.05 270);
         
-        /* Primary - Professional Blue */
-        --primary: oklch(0.55 0.18 250);
+        /* Primary - Vibrant Purple-Blue */
+        --primary: oklch(0.55 0.22 270);
         --primary-foreground: oklch(0.99 0.005 240);
         
-        /* Secondary - Soft Gray-Blue */
-        --secondary: oklch(0.94 0.01 240);
-        --secondary-foreground: oklch(0.3 0.02 260);
+        /* Secondary - Colorful Teal */
+        --secondary: oklch(0.92 0.05 200);
+        --secondary-foreground: oklch(0.25 0.08 200);
         
-        /* Muted - Light Background */
-        --muted: oklch(0.96 0.008 240);
-        --muted-foreground: oklch(0.5 0.02 260);
+        /* Muted - Soft Lavender */
+        --muted: oklch(0.95 0.03 280);
+        --muted-foreground: oklch(0.45 0.08 270);
         
-        /* Accent - Vibrant Blue */
-        --accent: oklch(0.96 0.008 240);
-        --accent-foreground: oklch(0.3 0.02 260);
+        /* Accent - Bright Cyan */
+        --accent: oklch(0.90 0.08 220);
+        --accent-foreground: oklch(0.25 0.10 220);
         
-        /* Destructive - Professional Red */
-        --destructive: oklch(0.55 0.22 25);
+        /* Destructive - Vibrant Red-Orange */
+        --destructive: oklch(0.55 0.24 30);
         --destructive-foreground: oklch(0.99 0.005 240);
         
+        /* Success - Vibrant Green */
+        --success: oklch(0.60 0.18 150);
+        --success-foreground: oklch(0.99 0.005 240);
+        
+        /* Warning - Vibrant Amber */
+        --warning: oklch(0.70 0.20 70);
+        --warning-foreground: oklch(0.20 0.05 70);
+        
         /* Borders and Inputs */
-        --border: oklch(0.9 0.01 240);
-        --input: oklch(0.9 0.01 240);
-        --ring: oklch(0.55 0.18 250);
+        --border: oklch(0.88 0.03 270);
+        --input: oklch(0.88 0.03 270);
+        --ring: oklch(0.55 0.22 270);
         
-        /* Charts */
-        --chart-1: oklch(0.65 0.2 250);
-        --chart-2: oklch(0.6 0.15 180);
-        --chart-3: oklch(0.55 0.12 280);
-        --chart-4: oklch(0.7 0.18 60);
-        --chart-5: oklch(0.65 0.2 30);
+        /* Charts - Vibrant */
+        --chart-1: oklch(0.60 0.22 270);
+        --chart-2: oklch(0.58 0.20 180);
+        --chart-3: oklch(0.62 0.18 320);
+        --chart-4: oklch(0.68 0.22 60);
+        --chart-5: oklch(0.60 0.24 30);
 
-        /* Page-level theming - Version 4 Colorful */
-        --page-login-bg-start: oklch(0.75 0.15 280);
-        --page-login-bg-end: oklch(0.65 0.18 250);
-        --page-access-denied-bg: oklch(0.97 0.012 30);
-        --page-admin-bg: oklch(0.97 0.015 250);
-        --page-agent-bg: oklch(0.98 0.01 200);
+        /* Page-level theming - Version 5 Colorful */
+        --page-login-bg-start: oklch(0.70 0.20 290);
+        --page-login-bg-end: oklch(0.60 0.22 250);
+        --page-access-denied-bg: oklch(0.96 0.04 30);
+        --page-admin-bg: oklch(0.96 0.04 260);
+        --page-agent-bg: oklch(0.97 0.03 200);
         
-        /* Panel surfaces - Version 3 */
+        /* Panel surfaces - Version 5 */
         --panel-surface: oklch(1 0 0);
-        --panel-border: oklch(0.92 0.01 240);
+        --panel-border: oklch(0.90 0.03 270);
         
-        /* Branded gradient accent - Version 3 */
-        --gradient-accent-start: oklch(0.55 0.18 250);
-        --gradient-accent-end: oklch(0.52 0.20 260);
+        /* Dashboard surfaces - enhanced contrast */
+        --dashboard-surface: oklch(1 0 0);
+        --dashboard-border: oklch(0.85 0.05 270);
+        --dashboard-tab-active-bg: oklch(0.55 0.22 270);
+        --dashboard-tab-inactive-bg: oklch(0.96 0.02 270);
+        --dashboard-tab-inactive-text: oklch(0.45 0.08 270);
         
-        /* Colorful heading gradient - Version 4 */
-        --heading-gradient-start: oklch(0.55 0.22 280);
-        --heading-gradient-mid: oklch(0.60 0.20 250);
-        --heading-gradient-end: oklch(0.50 0.18 220);
+        /* Branded gradient accent - Version 5 */
+        --gradient-accent-start: oklch(0.55 0.24 280);
+        --gradient-accent-end: oklch(0.50 0.26 250);
+        
+        /* Colorful heading gradient - Version 5 */
+        --heading-gradient-start: oklch(0.50 0.26 290);
+        --heading-gradient-mid: oklch(0.58 0.24 260);
+        --heading-gradient-end: oklch(0.48 0.22 230);
+        
+        /* Colorful text accents - Version 5 NEW */
+        --text-accent-primary: oklch(0.50 0.24 270);
+        --text-accent-secondary: oklch(0.55 0.20 200);
+        --text-accent-tertiary: oklch(0.58 0.18 320);
+        --text-accent-success: oklch(0.50 0.20 150);
+        --text-accent-warning: oklch(0.60 0.22 70);
     }
 
     .dark {
-        /* Core colors - Dark mode */
-        --background: oklch(0.18 0.02 260);
-        --foreground: oklch(0.95 0.01 240);
-        --card: oklch(0.2 0.02 260);
-        --card-foreground: oklch(0.95 0.01 240);
-        --popover: oklch(0.2 0.02 260);
-        --popover-foreground: oklch(0.95 0.01 240);
+        /* Core colors - Dark mode Version 5 vibrant */
+        --background: oklch(0.15 0.04 270);
+        --foreground: oklch(0.95 0.02 280);
+        --card: oklch(0.18 0.04 270);
+        --card-foreground: oklch(0.95 0.02 280);
+        --popover: oklch(0.18 0.04 270);
+        --popover-foreground: oklch(0.95 0.02 280);
         
-        /* Primary - Professional Blue (Dark) */
-        --primary: oklch(0.6 0.2 250);
-        --primary-foreground: oklch(0.18 0.02 260);
+        /* Primary - Vibrant Purple-Blue (Dark) */
+        --primary: oklch(0.65 0.24 270);
+        --primary-foreground: oklch(0.15 0.04 270);
         
-        /* Secondary - Dark Gray-Blue */
-        --secondary: oklch(0.25 0.02 260);
-        --secondary-foreground: oklch(0.95 0.01 240);
+        /* Secondary - Colorful Teal (Dark) */
+        --secondary: oklch(0.22 0.06 200);
+        --secondary-foreground: oklch(0.85 0.08 200);
         
-        /* Muted - Dark Background */
-        --muted: oklch(0.25 0.02 260);
-        --muted-foreground: oklch(0.65 0.02 240);
+        /* Muted - Soft Lavender (Dark) */
+        --muted: oklch(0.22 0.04 280);
+        --muted-foreground: oklch(0.70 0.08 270);
         
-        /* Accent - Dark Accent */
-        --accent: oklch(0.25 0.02 260);
-        --accent-foreground: oklch(0.95 0.01 240);
+        /* Accent - Bright Cyan (Dark) */
+        --accent: oklch(0.25 0.08 220);
+        --accent-foreground: oklch(0.85 0.10 220);
         
-        /* Destructive - Dark Red */
-        --destructive: oklch(0.45 0.2 25);
-        --destructive-foreground: oklch(0.95 0.01 240);
+        /* Destructive - Vibrant Red-Orange (Dark) */
+        --destructive: oklch(0.50 0.26 30);
+        --destructive-foreground: oklch(0.95 0.02 280);
+        
+        /* Success - Vibrant Green (Dark) */
+        --success: oklch(0.55 0.20 150);
+        --success-foreground: oklch(0.95 0.02 280);
+        
+        /* Warning - Vibrant Amber (Dark) */
+        --warning: oklch(0.65 0.22 70);
+        --warning-foreground: oklch(0.15 0.04 70);
         
         /* Borders and Inputs */
-        --border: oklch(0.28 0.02 260);
-        --input: oklch(0.28 0.02 260);
-        --ring: oklch(0.6 0.2 250);
+        --border: oklch(0.28 0.04 270);
+        --input: oklch(0.28 0.04 270);
+        --ring: oklch(0.65 0.24 270);
         
-        /* Charts - Dark */
-        --chart-1: oklch(0.6 0.2 250);
-        --chart-2: oklch(0.55 0.15 180);
-        --chart-3: oklch(0.6 0.15 280);
-        --chart-4: oklch(0.65 0.18 60);
-        --chart-5: oklch(0.6 0.2 30);
+        /* Charts - Vibrant (Dark) */
+        --chart-1: oklch(0.65 0.24 270);
+        --chart-2: oklch(0.60 0.22 180);
+        --chart-3: oklch(0.68 0.20 320);
+        --chart-4: oklch(0.70 0.24 60);
+        --chart-5: oklch(0.65 0.26 30);
 
-        /* Page-level theming - Dark mode Version 4 Colorful */
-        --page-login-bg-start: oklch(0.30 0.12 280);
-        --page-login-bg-end: oklch(0.25 0.15 250);
-        --page-access-denied-bg: oklch(0.15 0.03 30);
-        --page-admin-bg: oklch(0.15 0.03 250);
-        --page-agent-bg: oklch(0.16 0.02 200);
+        /* Page-level theming - Dark mode Version 5 Colorful */
+        --page-login-bg-start: oklch(0.25 0.15 290);
+        --page-login-bg-end: oklch(0.20 0.18 250);
+        --page-access-denied-bg: oklch(0.12 0.05 30);
+        --page-admin-bg: oklch(0.12 0.05 260);
+        --page-agent-bg: oklch(0.13 0.04 200);
         
         /* Panel surfaces - Dark mode */
-        --panel-surface: oklch(0.2 0.02 260);
-        --panel-border: oklch(0.28 0.02 260);
+        --panel-surface: oklch(0.18 0.04 270);
+        --panel-border: oklch(0.28 0.04 270);
+        
+        /* Dashboard surfaces - enhanced contrast (dark) */
+        --dashboard-surface: oklch(0.20 0.05 270);
+        --dashboard-border: oklch(0.32 0.06 270);
+        --dashboard-tab-active-bg: oklch(0.65 0.24 270);
+        --dashboard-tab-inactive-bg: oklch(0.18 0.04 270);
+        --dashboard-tab-inactive-text: oklch(0.70 0.08 270);
         
         /* Branded gradient accent - Dark mode */
-        --gradient-accent-start: oklch(0.6 0.2 250);
-        --gradient-accent-end: oklch(0.58 0.22 260);
+        --gradient-accent-start: oklch(0.65 0.26 280);
+        --gradient-accent-end: oklch(0.60 0.28 250);
         
-        /* Colorful heading gradient - Dark mode Version 4 */
-        --heading-gradient-start: oklch(0.65 0.20 280);
-        --heading-gradient-mid: oklch(0.70 0.18 250);
-        --heading-gradient-end: oklch(0.60 0.16 220);
+        /* Colorful heading gradient - Dark mode Version 5 */
+        --heading-gradient-start: oklch(0.70 0.24 290);
+        --heading-gradient-mid: oklch(0.75 0.22 260);
+        --heading-gradient-end: oklch(0.68 0.20 230);
+        
+        /* Colorful text accents - Dark mode Version 5 NEW */
+        --text-accent-primary: oklch(0.70 0.24 270);
+        --text-accent-secondary: oklch(0.68 0.22 200);
+        --text-accent-tertiary: oklch(0.72 0.20 320);
+        --text-accent-success: oklch(0.65 0.22 150);
+        --text-accent-warning: oklch(0.70 0.24 70);
     }
 
     * {
@@ -181,12 +225,77 @@
         border-radius: var(--radius);
     }
     
-    /* Colorful heading style - Version 4 */
+    /* Dashboard panel surface - high contrast for visibility */
+    .dashboard-panel-surface {
+        background: var(--dashboard-surface);
+        border: 2px solid var(--dashboard-border);
+        border-radius: calc(var(--radius) + 2px);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+    
+    /* Dashboard tab styling - colorful and visible */
+    .dashboard-tabs-list {
+        background: var(--dashboard-tab-inactive-bg);
+        border: 2px solid var(--dashboard-border);
+        padding: 0.25rem;
+        border-radius: var(--radius);
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.25rem;
+    }
+    
+    .dashboard-tab-trigger {
+        color: var(--dashboard-tab-inactive-text);
+        font-weight: 600;
+        transition: all 0.2s ease;
+        border-radius: calc(var(--radius) - 2px);
+        padding: 0.5rem 1rem;
+    }
+    
+    .dashboard-tab-trigger[data-state="active"] {
+        background: linear-gradient(135deg, var(--gradient-accent-start) 0%, var(--gradient-accent-end) 100%);
+        color: white;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    }
+    
+    /* Colorful heading style - Version 5 */
     .heading-colorful {
         background: linear-gradient(135deg, var(--heading-gradient-start) 0%, var(--heading-gradient-mid) 50%, var(--heading-gradient-end) 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
         text-fill-color: transparent;
+    }
+    
+    /* Colorful text utilities - Version 5 NEW */
+    .text-colorful-primary {
+        color: var(--text-accent-primary);
+        font-weight: 600;
+    }
+    
+    .text-colorful-secondary {
+        color: var(--text-accent-secondary);
+        font-weight: 600;
+    }
+    
+    .text-colorful-tertiary {
+        color: var(--text-accent-tertiary);
+        font-weight: 600;
+    }
+    
+    .text-colorful-success {
+        color: var(--text-accent-success);
+        font-weight: 600;
+    }
+    
+    .text-colorful-warning {
+        color: var(--text-accent-warning);
+        font-weight: 600;
+    }
+    
+    /* Colorful label style */
+    .label-colorful {
+        color: var(--text-accent-primary);
+        font-weight: 500;
     }
 }

@@ -1,62 +1,43 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "VR Homes Infra CRM – Colorful Login Theme + Theme-Driven Heading Accents",
+  "title": "Update session setup failure copy and reorder Admin/Agent dashboard tabs",
   "requirements": [
     {
-      "id": "REQ-22",
-      "summary": "Make the Login page background/theme clearly more colorful via theme tokens/CSS while keeping all existing login flows and layout unchanged.",
+      "id": "REQ-34",
+      "summary": "Adjust the session setup failure UI copy on the Login page to match the requested wording and make the primary action explicitly refresh-oriented while keeping reload behavior unchanged.",
       "acceptanceCriteria": [
-        "Login screen background (PageTheme variant=\"login\") renders a visibly colorful background (e.g., gradient) in both light and dark mode with no white/un-styled gaps around the viewport.",
-        "All existing Login page user flows remain unchanged: Admin/Agent toggle still works, Internet Identity sign-in still works, loading screen still appears, profile setup dialog still appears when required, and agent registration dialog still appears when applicable.",
-        "The Login card content remains readable over the new colorful background (text contrast is acceptable in light and dark modes)."
+        "When the app is in the existing session setup failure state (identity exists, actor is not created, and actor is not fetching) in frontend/src/pages/LoginPage.tsx, the description text displayed to users is exactly: \"Session Setup failed, kindly refresh it.\"",
+        "The primary button in this state clearly communicates refreshing (label uses English and matches the intent \"refresh this\") and still triggers a full page reload (window.location.reload()).",
+        "No authentication logic, routing logic, or actor initialization logic is changed—only the user-facing text/labels in the failure UI."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/index.css",
-          "operation": "modify",
-          "description": "Update theme tokens used by PageTheme variant=\"login\" to a visibly colorful background in both light and dark mode (e.g., gradient-based --page-login-bg), and ensure full-viewport coverage without gaps by adjusting the .page-theme-login background behavior (e.g., no-repeat/cover/fixed as needed) while keeping all existing layout intact."
-        },
-        {
           "path": "frontend/src/pages/LoginPage.tsx",
           "operation": "modify",
-          "description": "Keep all login logic and structure unchanged; only adjust styling classes as needed to ensure the login card remains readable over the updated colorful login background (e.g., ensure card surface/overlay and text contrast remain acceptable in light and dark modes)."
+          "description": "In the existing session setup failure card (identity present, actor absent, actor not fetching), keep the description text exactly \"Session Setup failed, kindly refresh it.\" and change only the primary button label to a refresh-oriented label (e.g., \"Refresh\" / \"Refresh this\") while keeping the onClick behavior as window.location.reload() and leaving all auth/routing/actor initialization logic unchanged."
         }
       ]
     },
     {
-      "id": "REQ-23",
-      "summary": "Introduce a consistent theme-driven colorful primary heading style and apply it to the Login title and dashboard titles without changing structure or text.",
+      "id": "REQ-35",
+      "summary": "Reorder the tab triggers in Admin and Agent dashboards to make panels easier to reach while preserving all existing panels and behavior.",
       "acceptanceCriteria": [
-        "Login page title (\"VR Homes Infra CRM\") and dashboard titles (e.g., \"Admin Dashboard\", \"Agent Dashboard\") use a visibly more colorful heading style (e.g., accent/gradient text or accent underline) driven by theme tokens (not hard-coded one-off colors).",
-        "Heading styling remains readable and consistent in both light and dark mode (no low-contrast heading text).",
-        "No changes to routing, authentication logic, backend calls, or role/status enforcement are introduced by the heading styling updates."
+        "Admin dashboard tabs in frontend/src/pages/admin/AdminDashboardPage.tsx are reordered to a clearer, intentional sequence (keep all existing tabs: Overview, Agents, Master Data, Follow-Ups, Export; only their placement/order changes).",
+        "Agent dashboard tabs in frontend/src/pages/agent/AgentDashboardPage.tsx are reordered to a clearer, intentional sequence (keep all existing tabs: Overview, Leads & Owners, Follow-ups; only their placement/order changes).",
+        "All tab content still renders the same existing panel components (no panel is removed or replaced).",
+        "Tab bar remains responsive (wraps as needed) and all labels remain in English."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/index.css",
-          "operation": "modify",
-          "description": "Add theme tokens for heading accents (light/dark) and define a reusable, theme-driven primary heading style class (e.g., gradient text or accent underline) in @layer components so it can be applied consistently across pages without hard-coded one-off colors."
-        },
-        {
-          "path": "frontend/src/pages/LoginPage.tsx",
-          "operation": "modify",
-          "description": "Apply the new theme-driven primary heading style to the login title text (\"VR Homes Infra CRM\") without changing any text content, layout, or login/onboarding behavior."
-        },
-        {
           "path": "frontend/src/pages/admin/AdminDashboardPage.tsx",
           "operation": "modify",
-          "description": "Apply the new theme-driven primary heading style to the page title heading (\"Admin Dashboard\") while keeping the page structure and content unchanged."
+          "description": "Reorder the existing TabsTrigger entries (tab order only) to a clearer sequence while keeping the same tab values, English labels, and existing TabsContent sections/components intact (no panels removed/replaced) and preserving the responsive tab list behavior via existing classes."
         },
         {
           "path": "frontend/src/pages/agent/AgentDashboardPage.tsx",
           "operation": "modify",
-          "description": "Apply the new theme-driven primary heading style to the page title heading (\"Agent Dashboard\") while keeping the page structure and content unchanged."
-        },
-        {
-          "path": "frontend/src/components/layout/AppLayout.tsx",
-          "operation": "modify",
-          "description": "Apply the same theme-driven heading style to the app’s primary brand heading in the header (\"VR Homes Infra CRM\") for consistent heading contrast across the app, without changing any routing/auth/logout behavior."
+          "description": "Reorder the existing TabsTrigger entries (tab order only) to a clearer sequence while keeping the same tab values, English labels, and existing TabsContent sections/components intact (no panels removed/replaced) and preserving the responsive tab list behavior via existing classes."
         }
       ]
     }

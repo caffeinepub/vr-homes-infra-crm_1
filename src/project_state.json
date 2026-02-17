@@ -1,16 +1,24 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 5,
+  "projectStateVersion": 25,
   "summary": "VR Homes Infra CRM with role-based unified login (Admin/Agent), admin full-control dashboards (analytics, agent management, master data, global follow-ups, exports) and agent self-managed dashboards (own leads/owners, follow-ups, WhatsApp direct messaging).",
   "architectural_notes": [
     "Implement RBAC with two roles (admin, agent) and enforce data partitioning so agents can only access self-created records and their follow-ups.",
     "Agent authentication must check agent approval status; deny access when status is pending or rejected.",
     "WhatsApp messaging should be implemented via wa.me deep link with URL-encoded prefilled text (no server-side WhatsApp API assumed).",
     "Define core entities and required fields: Leads (Name, Mobile, Requirement, Budget, Size, Shifting Date, Remarks), Owners (Name, Mobile, Flat No, Demand, Date, Size, Remarks), Agents (Name, Mobile, Face Image upload, Status Active/Inactive, plus approval status).",
-    "Provide export functionality for admin in CSV/Excel formats for specified reports."
+    "Provide export functionality for admin in CSV/Excel formats for specified reports.",
+    "Support agent self-registration flow that creates an Agent record in a pending approval state; admin must approve/reject before the agent can access the Agent Dashboard.",
+    "Define a per-page color theme (page background) and a separate panel/card color system to ensure clear contrast and consistent readability across the app.",
+    "Reports/export downloads should be provided as CSV files (avoid Excel exports unless re-approved)."
   ],
-  "known_issues": [],
-  "isFixRequest": false,
+  "known_issues": [
+    "Login/sign-in flow is not working properly (user reports app is not signing in).",
+    "Deployment/session initialization error reported: \"Session Setup failed, kindly refresh it.\"",
+    "After the recent colorful UI/theme update, Admin Dashboard panels (Master Data and Follow-Ups) appear missing or hard to find due to visual blending/low contrast.",
+    "User reports seeing \"Session Setup failed\" and asks to refresh/fix the session setup failed state."
+  ],
+  "isFixRequest": true,
   "existing_features": [
     {
       "id": "feature-implement-authentication-using-internet-identity-and-add-a-unified-login-page-with-an-explicit-role-toggle-admin-login-agent-login-after-successful-sign-in-resolve-the-signed-in-user-to-an-application-role-admin-or-agent-and-redirect-accordingly-admins-to-admin-dashboard-agents-to-agent-dashboard-only-if-their-agent-status-is-approved-active-if-agent-status-is-pending-or-rejected-deny-access-with-an-english-error-message-and-do-not-route-into-the-app",
@@ -65,6 +73,214 @@
       "title": "Update the unified login page UI to be more colorful while keeping all existing login behavior unchanged (Internet Identity sign-in, Admin/Agent toggle, loading state, and profile-setup dialog). Use a vibrant multi-color gradient background, improved visual hierarchy, and stronger accent colors for the icon, card, toggle section, and primary sign-in button, ensuring readability and accessibility in both light and dark themes.",
       "reqIds": [
         "REQ-8"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-agent-self-registration-so-that-a-signed-in-internet-identity-user-can-register-themselves-as-an-agent-name-mobile-face-photo-and-be-created-in-the-backend-with-status-pending-newly-registered-agents-must-appear-in-the-admin-dashboard-agent-management-list-for-approval-or-rejection",
+      "title": "Implement agent self-registration so that a signed-in Internet Identity user can register themselves as an agent (name, mobile, face photo) and be created in the backend with status = Pending; newly registered agents must appear in the Admin Dashboard (Agent Management) list for approval or rejection.",
+      "reqIds": [
+        "REQ-9"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-login-onboarding-flow-so-that-when-a-user-selects-agent-login-and-signs-in-with-internet-identity-they-can-complete-agent-registration-full-name-mobile-number-profile-photo-from-the-login-experience-after-submission-show-an-english-confirmation-message-indicating-the-account-is-pending-admin-approval-and-prevent-access-to-the-agent-dashboard-until-approved",
+      "title": "Update the login/onboarding flow so that when a user selects “Agent Login” and signs in with Internet Identity, they can complete agent registration (Full Name, Mobile Number, Profile Photo) from the login experience; after submission, show an English confirmation message indicating the account is pending admin approval and prevent access to the Agent Dashboard until approved.",
+      "reqIds": [
+        "REQ-10"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-refine-the-authentication-login-ui-to-look-more-professional-and-official-not-simple-with-a-stronger-but-corporate-color-system-and-improved-typography-hierarchy-while-keeping-all-existing-login-behavior-unchanged",
+      "title": "Refine the authentication/login UI to look more professional and “official” (not simple), with a stronger but corporate color system and improved typography/hierarchy, while keeping all existing login behavior unchanged.",
+      "reqIds": [
+        "REQ-11"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-react-query-hooks-and-wiring-needed-to-support-agent-self-registration-and-to-keep-the-admin-agent-list-up-to-date-after-approvals-rejections",
+      "title": "Add React Query hooks and wiring needed to support agent self-registration and to keep the Admin Agent list up-to-date after approvals/rejections.",
+      "reqIds": [
+        "REQ-12"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-page-level-theming-system-that-supports-distinct-background-colors-per-top-level-page-login-access-denied-admin-area-agent-area-while-preserving-all-existing-layouts-and-behavior",
+      "title": "Add a page-level theming system that supports distinct background colors per top-level page (Login, Access Denied, Admin area, Agent area) while preserving all existing layouts and behavior.",
+      "reqIds": [
+        "REQ-14"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-authenticated-layout-so-admin-and-agent-sections-can-render-with-different-page-background-colors-without-changing-any-authentication-logic-header-footer-content-or-route-structure",
+      "title": "Update the authenticated layout so Admin and Agent sections can render with different page background colors without changing any authentication logic, header/footer content, or route structure.",
+      "reqIds": [
+        "REQ-15"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-ensure-dashboard-panels-tabs-content-sections-cards-and-major-panel-containers-use-background-colors-that-are-different-from-and-visually-contrast-with-their-parent-page-background-across-admin-and-agent-dashboards",
+      "title": "Ensure dashboard panels (tabs content sections, cards, and major panel containers) use background colors that are different from (and visually contrast with) their parent page background, across Admin and Agent dashboards.",
+      "reqIds": [
+        "REQ-16"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-revise-the-current-frontend-ui-to-match-the-version-3-visual-design-colors-gradients-typography-and-component-styling-while-keeping-all-existing-authentication-onboarding-routing-and-dashboard-functionality-unchanged",
+      "title": "Revise the current frontend UI to match the Version 3 visual design (colors, gradients, typography, and component styling) while keeping all existing authentication, onboarding, routing, and dashboard functionality unchanged.",
+      "reqIds": [
+        "REQ-17"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-page-level-theming-variables-and-page-background-panel-contrast-styling-so-the-overall-theme-aligns-with-version-3-including-login-page-background-and-surface-styling-without-changing-the-pagetheme-api-or-routing-layout-structure",
+      "title": "Update the page-level theming variables and page background/panel contrast styling so the overall theme aligns with Version 3 (including Login page background and surface styling), without changing the PageTheme API or routing/layout structure.",
+      "reqIds": [
+        "REQ-18"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-page-level-theme-styling-so-each-pagetheme-variant-login-access-denied-admin-agent-fully-fills-the-viewport-with-a-clear-intentional-background-color-gradient-in-both-light-and-dark-mode-with-no-unstyled-white-gaps-around-the-edges",
+      "title": "Update the page-level theme styling so each PageTheme variant (login, access-denied, admin, agent) fully fills the viewport with a clear, intentional background color/gradient in both light and dark mode, with no unstyled/white gaps around the edges.",
+      "reqIds": [
+        "REQ-19"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-replace-hard-coded-blue-gradient-endpoints-e-g-to-blue-600-used-for-major-branded-accents-login-icon-tile-primary-sign-in-button-header-logo-tile-access-denied-primary-button-with-theme-driven-accent-tokens-so-the-same-chosen-color-system-consistently-applies-across-the-app",
+      "title": "Replace hard-coded blue gradient endpoints (e.g., \"to-blue-600\") used for major branded accents (login icon tile, primary sign-in button, header logo tile, access-denied primary button) with theme-driven accent tokens so the same chosen color system consistently applies across the app.",
+      "reqIds": [
+        "REQ-20"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-ensure-primary-surfaces-cards-panels-remain-visually-distinct-from-the-newly-filled-page-backgrounds-by-enforcing-consistent-panel-card-surface-contrast-e-g-using-the-existing-panel-surface-styling-across-login-and-access-denied-screens-without-changing-layout-structure",
+      "title": "Ensure primary surfaces (cards/panels) remain visually distinct from the newly filled page backgrounds by enforcing consistent panel/card surface contrast (e.g., using the existing panel-surface styling) across login and access-denied screens without changing layout structure.",
+      "reqIds": [
+        "REQ-21"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-login-page-theme-styling-to-be-clearly-more-colorful-while-keeping-all-existing-login-behavior-unchanged-internet-identity-sign-in-admin-agent-toggle-loading-state-profile-setup-dialog-and-agent-registration-dialog-this-must-be-implemented-via-theme-tokens-css-and-existing-components-so-the-layout-and-logic-remain-the-same",
+      "title": "Update the Login page theme styling to be clearly more colorful while keeping all existing login behavior unchanged (Internet Identity sign-in, Admin/Agent toggle, loading state, profile setup dialog, and agent registration dialog). This must be implemented via theme tokens/CSS and existing components so the layout and logic remain the same.",
+      "reqIds": [
+        "REQ-22"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-make-primary-headings-across-the-app-e-g-page-titles-and-section-headers-more-colorful-and-higher-contrast-using-a-consistent-theme-driven-style-including-the-login-page-title-and-the-admin-agent-dashboard-titles-without-changing-any-page-structure-or-text-content",
+      "title": "Make primary headings across the app (e.g., page titles and section headers) more colorful and higher-contrast using a consistent theme-driven style, including the Login page title and the Admin/Agent dashboard titles, without changing any page structure or text content.",
+      "reqIds": [
+        "REQ-23"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-fix-the-internet-identity-login-flow-so-users-can-successfully-sign-in-in-production-builds-by-ensuring-a-valid-internet-identity-provider-url-is-always-available-at-runtime-even-when-process-env-ii-url-is-not-injected-by-the-frontend-bundler",
+      "title": "Fix the Internet Identity login flow so users can successfully sign in in production builds by ensuring a valid Internet Identity provider URL is always available at runtime (even when `process.env.II_URL` is not injected by the frontend bundler).",
+      "reqIds": [
+        "REQ-24"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-login-page-to-show-a-clear-user-friendly-english-error-message-when-internet-identity-login-fails-using-the-existing-loginstatus-loginerror-from-the-auth-hook-and-provide-a-retry-action-that-re-attempts-login",
+      "title": "Update the Login page to show a clear, user-friendly English error message when Internet Identity login fails (using the existing `loginStatus` / `loginError` from the auth hook), and provide a retry action that re-attempts login.",
+      "reqIds": [
+        "REQ-25"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-ensure-authenticated-actor-initialization-cannot-block-sign-in-routing-due-to-access-control-initialization-failures-e-g-missing-empty-caffeineadmintoken-so-that-normal-users-can-still-sign-in-and-load-their-role-profile-queries",
+      "title": "Ensure authenticated actor initialization cannot block sign-in routing due to access-control initialization failures (e.g., missing/empty `caffeineAdminToken`), so that normal users can still sign in and load their role/profile queries.",
+      "reqIds": [
+        "REQ-26"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-lightweight-sign-in-diagnostics-for-troubleshooting-capture-and-display-in-english-a-non-technical-failure-state-on-the-login-page-when-the-app-is-stuck-after-sign-in-e-g-identity-exists-but-role-profile-queries-fail-and-log-the-underlying-error-to-the-browser-console-for-developers",
+      "title": "Add lightweight sign-in diagnostics for troubleshooting: capture and display (in English) a non-technical failure state on the Login page when the app is stuck after sign-in (e.g., identity exists but role/profile queries fail), and log the underlying error to the browser console for developers.",
+      "reqIds": [
+        "REQ-27"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-when-the-login-page-detects-an-authenticated-identity-but-cannot-finish-actor-session-initialization-the-existing-session-setup-failed-state-in-frontend-src-pages-loginpage-tsx-update-the-user-facing-error-copy-to-exactly-session-setup-failed-kindly-refresh-it",
+      "title": "When the login page detects an authenticated identity but cannot finish actor/session initialization (the existing \"Session Setup Failed\" state in `frontend/src/pages/LoginPage.tsx`), update the user-facing error copy to exactly: \"Session Setup failed, kindly refresh it.\"",
+      "reqIds": [
+        "REQ-28"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-ui-styling-across-the-entire-app-login-access-denied-admin-area-agent-area-and-all-panels-so-pages-look-more-colorful-and-include-more-colorful-high-contrast-wording-not-only-headings-while-keeping-all-existing-layout-structure-and-application-behavior-unchanged",
+      "title": "Update the UI styling across the entire app (Login, Access Denied, Admin area, Agent area, and all panels) so pages look more colorful and include more colorful/high-contrast wording (not only headings), while keeping all existing layout structure and application behavior unchanged.",
+      "reqIds": [
+        "REQ-29"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-change-the-admin-dashboard-export-center-so-every-report-download-is-a-csv-file-including-lead-master-report-and-customer-owner-report-and-update-all-related-ui-labels-descriptions-toasts-to-say-csv-english-with-csv-filenames",
+      "title": "Change the Admin Dashboard Export Center so every report download is a CSV file (including Lead Master Report and Customer/Owner Report), and update all related UI labels/descriptions/toasts to say CSV (English) with .csv filenames.",
+      "reqIds": [
+        "REQ-30"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-restore-the-admin-dashboard-navigation-so-the-existing-master-data-and-follow-ups-panels-are-clearly-visible-and-accessible-as-first-class-tabs-alongside-the-existing-overview-agents-export-tabs-without-removing-or-changing-any-current-admin-dashboard-functionality",
+      "title": "Restore the Admin Dashboard navigation so the existing \"Master Data\" and \"Follow-Ups\" panels are clearly visible and accessible as first-class tabs alongside the existing Overview/Agents/Export tabs, without removing or changing any current admin dashboard functionality.",
+      "reqIds": [
+        "REQ-31"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-improve-the-admin-dashboard-tab-styling-and-panel-surface-contrast-so-each-tab-content-area-including-master-data-and-follow-ups-is-visually-distinct-from-the-admin-page-background-and-does-not-visually-blend-into-it-in-both-light-and-dark-mode",
+      "title": "Improve the Admin Dashboard tab styling and panel/surface contrast so each tab content area (including Master Data and Follow-Ups) is visually distinct from the Admin page background and does not visually blend into it, in both light and dark mode.",
+      "reqIds": [
+        "REQ-32"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-agent-dashboard-to-include-all-required-panels-as-clearly-visible-tabs-overview-leads-owners-follow-ups-and-apply-a-more-colorful-high-contrast-panel-surface-styling-so-sections-are-clearly-separated-and-easy-to-see",
+      "title": "Update the Agent Dashboard to include all required panels as clearly visible tabs (Overview, Leads & Owners, Follow-ups) and apply a more colorful, high-contrast panel/surface styling so sections are clearly separated and easy to see.",
+      "reqIds": [
+        "REQ-33"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-login-page-session-initialization-failure-ui-so-the-user-facing-copy-matches-the-user-request-show-the-failure-message-as-session-setup-failed-kindly-refresh-it-and-update-the-primary-action-label-to-a-refresh-oriented-label-e-g-refresh-refresh-this-while-keeping-the-existing-reload-behavior-unchanged",
+      "title": "Update the Login page session-initialization failure UI so the user-facing copy matches the user request: show the failure message as \"Session Setup failed, kindly refresh it.\" and update the primary action label to a refresh-oriented label (e.g., \"Refresh\" / \"Refresh this\") while keeping the existing reload behavior unchanged.",
+      "reqIds": [
+        "REQ-34"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-rearrange-move-the-dashboard-panels-in-both-admin-dashboard-and-agent-dashboard-by-changing-the-tab-order-and-layout-so-all-panels-are-clearly-reachable-and-appear-in-the-requested-arrangement-without-removing-any-existing-panels-or-changing-their-functionality",
+      "title": "Rearrange (move) the dashboard panels in both Admin Dashboard and Agent Dashboard by changing the tab order and layout so all panels are clearly reachable and appear in the requested arrangement, without removing any existing panels or changing their functionality.",
+      "reqIds": [
+        "REQ-35"
       ],
       "version": 1
     }
@@ -141,6 +357,56 @@
     {
       "id": "AR-13",
       "summary": "Update UI styling to make the login page more colorful (enhanced color palette, accents, and visual hierarchy)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-14",
+      "summary": "Enable agent self-registration (sign-up). New registrations appear in Admin Dashboard for approval/rejection before agent can access the app",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-15",
+      "summary": "Improve UI to look more professional/official with a stronger color theme (beyond a simple-looking page)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-20",
+      "summary": "Extend backend agent management to support self-registration while preserving existing admin approval/rejection controls and agent access enforcement.",
+      "reqIds": [
+        "REQ-13"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-21",
+      "summary": "Update UI theming so each page has a distinct background color and each panel/card uses a different (contrasting) color from its page background",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-22",
+      "summary": "Update UI styling so headings (e.g., page titles/section headers) use more colorful, higher-contrast styling across the app (including the login page headings)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-23",
+      "summary": "Update UI styling across all pages to be more colorful, including more colorful/high-contrast wording throughout (not just headings)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-24",
+      "summary": "Adjust UI so Admin Dashboard Master Data and Follow-Ups panels are clearly visible again (e.g., clearer tabs/sectioning and higher-contrast panel styling) and make Agent Dashboard panels more colorful and visually distinct",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-25",
+      "summary": "Rearrange/move panels in both Admin Dashboard and Agent Dashboard (update layout/placement so panels are positioned as desired)",
       "reqIds": [],
       "status": "pending"
     }

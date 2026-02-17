@@ -10,7 +10,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { MoreVertical, UserPlus, Loader2, Eye } from 'lucide-react';
+import { MoreVertical, UserPlus, Loader2, Eye, CheckCircle2, XCircle } from 'lucide-react';
 import { AgentStatus, ExternalBlob } from '../../../backend';
 import { toast } from 'sonner';
 
@@ -29,20 +29,21 @@ export default function AgentManagementPanel() {
   const getStatusBadge = (status: AgentStatus) => {
     switch (status) {
       case AgentStatus.active:
-        return <Badge className="bg-green-500">Active</Badge>;
+        return <Badge className="bg-green-600 hover:bg-green-700">Active</Badge>;
       case AgentStatus.pending:
-        return <Badge variant="secondary">Pending</Badge>;
+        return <Badge className="bg-amber-500 hover:bg-amber-600">Pending</Badge>;
       case AgentStatus.rejected:
         return <Badge variant="destructive">Rejected</Badge>;
       case AgentStatus.inactive:
-        return <Badge variant="outline">Inactive</Badge>;
+        return <Badge variant="outline" className="text-slate-500">Inactive</Badge>;
     }
   };
 
   const handleStatusChange = async (agentId: any, status: AgentStatus) => {
     try {
       await updateStatus.mutateAsync({ agentId, status });
-      toast.success('Agent status updated successfully');
+      const statusText = status === AgentStatus.active ? 'approved and activated' : status;
+      toast.success(`Agent status updated to ${statusText}`);
     } catch (error) {
       toast.error('Failed to update agent status');
     }
@@ -85,12 +86,24 @@ export default function AgentManagementPanel() {
     );
   }
 
+  // Separate agents by status for better organization
+  const pendingAgents = agents.filter(a => a.status === AgentStatus.pending);
+  const activeAgents = agents.filter(a => a.status === AgentStatus.active);
+  const otherAgents = agents.filter(a => a.status !== AgentStatus.pending && a.status !== AgentStatus.active);
+
   return (
     <div className="space-y-6">
-      <Card>
+      <Card className="bg-card/50">
         <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle>Agent Management</CardTitle>
-          <Button onClick={() => setShowCreateDialog(true)}>
+          <div>
+            <CardTitle>Agent Management</CardTitle>
+            {pendingAgents.length > 0 && (
+              <p className="text-sm text-amber-600 dark:text-amber-400 mt-1">
+                {pendingAgents.length} agent{pendingAgents.length !== 1 ? 's' : ''} pending approval
+              </p>
+            )}
+          </div>
+          <Button onClick={() => setShowCreateDialog(true)} className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700">
             <UserPlus className="h-4 w-4 mr-2" />
             Add Agent
           </Button>
@@ -107,8 +120,8 @@ export default function AgentManagementPanel() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {agents.map((agent) => (
-                <TableRow key={agent.id.toString()}>
+              {[...pendingAgents, ...activeAgents, ...otherAgents].map((agent) => (
+                <TableRow key={agent.id.toString()} className={agent.status === AgentStatus.pending ? 'bg-amber-50/50 dark:bg-amber-900/10' : ''}>
                   <TableCell>
                     <Avatar>
                       <AvatarImage src={agent.photo.getDirectURL()} alt={agent.name} />
@@ -127,6 +140,26 @@ export default function AgentManagementPanel() {
                       >
                         <Eye className="h-4 w-4" />
                       </Button>
+                      {agent.status === AgentStatus.pending && (
+                        <>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="text-green-600 hover:text-green-700 hover:bg-green-50 dark:hover:bg-green-900/20"
+                            onClick={() => handleStatusChange(agent.id, AgentStatus.active)}
+                          >
+                            <CheckCircle2 className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/20"
+                            onClick={() => handleStatusChange(agent.id, AgentStatus.rejected)}
+                          >
+                            <XCircle className="h-4 w-4" />
+                          </Button>
+                        </>
+                      )}
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                           <Button variant="ghost" size="sm">
@@ -155,7 +188,7 @@ export default function AgentManagementPanel() {
       </Card>
 
       <Dialog open={showCreateDialog} onOpenChange={setShowCreateDialog}>
-        <DialogContent>
+        <DialogContent className="border-slate-200 dark:border-slate-800">
           <DialogHeader>
             <DialogTitle>Create New Agent</DialogTitle>
             <DialogDescription>Add a new agent to the system</DialogDescription>
@@ -193,7 +226,7 @@ export default function AgentManagementPanel() {
                 <div className="text-sm text-muted-foreground">Uploading: {uploadProgress}%</div>
                 <div className="w-full bg-muted rounded-full h-2">
                   <div
-                    className="bg-primary h-2 rounded-full transition-all"
+                    className="bg-gradient-to-r from-blue-600 to-indigo-600 h-2 rounded-full transition-all"
                     style={{ width: `${uploadProgress}%` }}
                   />
                 </div>
@@ -204,7 +237,7 @@ export default function AgentManagementPanel() {
             <Button variant="outline" onClick={() => setShowCreateDialog(false)}>
               Cancel
             </Button>
-            <Button onClick={handleCreateAgent} disabled={createAgent.isPending}>
+            <Button onClick={handleCreateAgent} disabled={createAgent.isPending} className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700">
               {createAgent.isPending ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
