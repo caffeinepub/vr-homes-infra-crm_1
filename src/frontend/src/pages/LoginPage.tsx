@@ -1,24 +1,28 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from '@tanstack/react-router';
 import { useInternetIdentity } from '../hooks/useInternetIdentity';
-import { useGetCallerUserRole, useGetCallerUserProfile, useSaveCallerUserProfile } from '../hooks/useQueries';
+import { useGetCallerUserRole, useGetCallerUserProfile, useSaveCallerUserProfile, useGetAgentDetails } from '../hooks/useQueries';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Building2, Loader2, Sparkles } from 'lucide-react';
+import { Building2, Loader2, Shield, Users } from 'lucide-react';
 import { Switch } from '@/components/ui/switch';
+import AgentRegistrationForm from '../components/auth/AgentRegistrationForm';
+import PageTheme from '../components/theme/PageTheme';
 
 export default function LoginPage() {
   const navigate = useNavigate();
   const { identity, login, loginStatus, isLoggingIn } = useInternetIdentity();
   const { data: userRole, isLoading: roleLoading } = useGetCallerUserRole();
   const { data: userProfile, isLoading: profileLoading, isFetched: profileFetched } = useGetCallerUserProfile();
+  const { data: agentDetails, isLoading: agentLoading, isFetched: agentFetched } = useGetAgentDetails(identity?.getPrincipal());
   const saveProfile = useSaveCallerUserProfile();
 
   const [loginMode, setLoginMode] = useState<'admin' | 'agent'>('admin');
   const [showProfileSetup, setShowProfileSetup] = useState(false);
+  const [showAgentRegistration, setShowAgentRegistration] = useState(false);
   const [profileName, setProfileName] = useState('');
 
   // Handle post-login routing
@@ -28,11 +32,18 @@ export default function LoginPage() {
         setShowProfileSetup(true);
       } else if (userRole === 'admin') {
         navigate({ to: '/admin' });
+      } else if (loginMode === 'agent') {
+        // Check if agent record exists
+        if (agentFetched && !agentDetails) {
+          setShowAgentRegistration(true);
+        } else if (agentDetails) {
+          navigate({ to: '/agent' });
+        }
       } else {
         navigate({ to: '/agent' });
       }
     }
-  }, [identity, userRole, userProfile, profileFetched, navigate]);
+  }, [identity, userRole, userProfile, profileFetched, agentDetails, agentFetched, loginMode, navigate]);
 
   const handleLogin = () => {
     login();
@@ -52,163 +63,168 @@ export default function LoginPage() {
     }
   };
 
-  if (identity && (roleLoading || profileLoading)) {
+  const handleRegistrationSuccess = () => {
+    setShowAgentRegistration(false);
+    navigate({ to: '/access-denied', search: { reason: 'pending' } });
+  };
+
+  if (identity && (roleLoading || profileLoading || (loginMode === 'agent' && agentLoading))) {
     return (
-      <div className="flex items-center justify-center min-h-screen login-page-gradient relative overflow-hidden">
-        {/* Decorative orbs for loading state */}
-        <div className="login-decorative-orb w-96 h-96 bg-gradient-to-br from-purple-400 to-pink-400 absolute top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2" />
-        <div className="login-decorative-orb w-80 h-80 bg-gradient-to-br from-blue-400 to-cyan-400 absolute bottom-1/4 right-1/4 translate-x-1/2 translate-y-1/2" />
-        
-        <div className="relative z-10 flex flex-col items-center gap-4">
-          <Loader2 className="h-12 w-12 animate-spin text-white drop-shadow-lg" />
-          <p className="text-white font-medium drop-shadow-md">Loading your dashboard...</p>
+      <PageTheme variant="login">
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="flex flex-col items-center gap-4">
+            <Loader2 className="h-12 w-12 animate-spin text-white" />
+            <p className="text-lg font-medium text-white">Loading your dashboard...</p>
+          </div>
         </div>
-      </div>
+      </PageTheme>
     );
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen login-page-gradient relative overflow-hidden p-4">
-      {/* Decorative gradient orbs */}
-      <div className="login-decorative-orb w-96 h-96 bg-gradient-to-br from-purple-400 to-pink-400 absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2" />
-      <div className="login-decorative-orb w-80 h-80 bg-gradient-to-br from-blue-400 to-cyan-400 absolute bottom-0 right-0 translate-x-1/2 translate-y-1/2" />
-      <div className="login-decorative-orb w-72 h-72 bg-gradient-to-br from-teal-400 to-green-400 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
-      
-      <Card className="w-full max-w-md login-card-glow relative z-10 border-2 backdrop-blur-sm bg-card/95">
-        <CardHeader className="space-y-4 text-center pb-6">
-          <div className="flex justify-center">
-            <div className="p-4 login-icon-gradient rounded-3xl shadow-lg relative">
-              <Building2 className="h-12 w-12 text-white drop-shadow-md" />
-              <Sparkles className="h-5 w-5 text-white/90 absolute -top-1 -right-1 animate-pulse" />
+    <PageTheme variant="login">
+      <div className="flex items-center justify-center min-h-screen p-4">
+        <Card className="w-full max-w-md shadow-medium bg-card border-border">
+          <CardHeader className="space-y-6 text-center pb-6">
+            <div className="flex justify-center">
+              <div className="p-4 bg-gradient-to-br from-gradient-accent-start to-gradient-accent-end rounded-xl shadow-soft">
+                <Building2 className="h-12 w-12 text-white" />
+              </div>
             </div>
-          </div>
-          <div className="space-y-2">
-            <CardTitle className="text-4xl font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent dark:from-purple-400 dark:via-pink-400 dark:to-blue-400">
-              VR Homes Infra CRM
-            </CardTitle>
-            <CardDescription className="text-base font-medium">
-              Unified login for admins and agents
-            </CardDescription>
-          </div>
-        </CardHeader>
-        <CardContent className="space-y-6 pb-8">
-          <div className="space-y-4">
-            <div className={`flex items-center justify-center space-x-4 p-5 rounded-xl transition-all duration-300 ${
-              loginMode === 'admin' || loginMode === 'agent' ? 'login-mode-active' : 'bg-muted/50'
-            }`}>
-              <Label
-                htmlFor="login-mode"
-                className={`text-sm font-bold cursor-pointer transition-all duration-300 ${
-                  loginMode === 'admin' 
-                    ? 'text-transparent bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text dark:from-purple-400 dark:to-pink-400 scale-105' 
-                    : 'text-muted-foreground hover:text-foreground'
-                }`}
-              >
-                Admin Login
-              </Label>
-              <Switch
-                id="login-mode"
-                checked={loginMode === 'agent'}
-                onCheckedChange={(checked) => setLoginMode(checked ? 'agent' : 'admin')}
-                className="data-[state=checked]:bg-gradient-to-r data-[state=checked]:from-blue-500 data-[state=checked]:to-cyan-500"
-              />
-              <Label
-                htmlFor="login-mode"
-                className={`text-sm font-bold cursor-pointer transition-all duration-300 ${
-                  loginMode === 'agent' 
-                    ? 'text-transparent bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text dark:from-blue-400 dark:to-cyan-400 scale-105' 
-                    : 'text-muted-foreground hover:text-foreground'
-                }`}
-              >
-                Agent Login
-              </Label>
-            </div>
-
-            <div className="space-y-2 px-2">
-              <p className="text-sm text-muted-foreground text-center leading-relaxed">
-                {loginMode === 'admin'
-                  ? '🔐 Sign in with Internet Identity to access the admin dashboard'
-                  : '🚀 Sign in with Internet Identity to access your agent dashboard'}
-              </p>
-            </div>
-          </div>
-
-          <Button
-            onClick={handleLogin}
-            disabled={isLoggingIn}
-            className="w-full h-14 text-base font-bold login-button-gradient text-white shadow-xl border-0 hover:shadow-2xl disabled:opacity-50 disabled:cursor-not-allowed"
-            size="lg"
-          >
-            {isLoggingIn ? (
-              <>
-                <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                Signing In...
-              </>
-            ) : (
-              <>
-                <Sparkles className="mr-2 h-5 w-5" />
-                Sign In with Internet Identity
-              </>
-            )}
-          </Button>
-
-          <div className="flex items-center justify-center gap-2 pt-2">
-            <div className="h-px flex-1 bg-gradient-to-r from-transparent via-border to-transparent" />
-            <p className="text-xs text-center text-muted-foreground font-medium px-2">
-              Secure authentication powered by Internet Computer
-            </p>
-            <div className="h-px flex-1 bg-gradient-to-r from-transparent via-border to-transparent" />
-          </div>
-        </CardContent>
-      </Card>
-
-      <Dialog open={showProfileSetup} onOpenChange={setShowProfileSetup}>
-        <DialogContent className="border-2">
-          <DialogHeader>
-            <DialogTitle className="text-2xl">Complete Your Profile</DialogTitle>
-            <DialogDescription className="text-base">
-              Please enter your name to complete the setup
-            </DialogDescription>
-          </DialogHeader>
-          <div className="space-y-4 py-4">
             <div className="space-y-2">
-              <Label htmlFor="profile-name" className="text-sm font-semibold">Full Name</Label>
-              <Input
-                id="profile-name"
-                placeholder="Enter your full name"
-                value={profileName}
-                onChange={(e) => setProfileName(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' && profileName.trim()) {
-                    handleProfileSetup();
-                  }
-                }}
-                className="h-12 text-base"
-              />
+              <CardTitle className="text-3xl font-bold heading-colorful">
+                VR Homes Infra CRM
+              </CardTitle>
+              <CardDescription className="text-base">
+                Professional Real Estate Management System
+              </CardDescription>
             </div>
-          </div>
-          <DialogFooter>
+          </CardHeader>
+          <CardContent className="space-y-6 pb-6">
+            <div className="space-y-4">
+              <div className="flex items-center justify-center space-x-3 p-3 rounded-lg bg-muted/50">
+                <div className="flex items-center gap-2">
+                  <Shield className={`h-4 w-4 transition-colors ${loginMode === 'admin' ? 'text-primary' : 'text-muted-foreground'}`} />
+                  <Label
+                    htmlFor="login-mode"
+                    className={`text-sm font-medium cursor-pointer transition-colors ${
+                      loginMode === 'admin' 
+                        ? 'text-primary' 
+                        : 'text-muted-foreground'
+                    }`}
+                  >
+                    Administrator
+                  </Label>
+                </div>
+                <Switch
+                  id="login-mode"
+                  checked={loginMode === 'agent'}
+                  onCheckedChange={(checked) => setLoginMode(checked ? 'agent' : 'admin')}
+                />
+                <div className="flex items-center gap-2">
+                  <Label
+                    htmlFor="login-mode"
+                    className={`text-sm font-medium cursor-pointer transition-colors ${
+                      loginMode === 'agent' 
+                        ? 'text-primary' 
+                        : 'text-muted-foreground'
+                    }`}
+                  >
+                    Agent
+                  </Label>
+                  <Users className={`h-4 w-4 transition-colors ${loginMode === 'agent' ? 'text-primary' : 'text-muted-foreground'}`} />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <p className="text-sm text-muted-foreground text-center">
+                  {loginMode === 'admin'
+                    ? 'Sign in with Internet Identity to access administrative controls and system management.'
+                    : 'Sign in with Internet Identity to access your agent dashboard and manage your portfolio.'}
+                </p>
+              </div>
+            </div>
+
             <Button
-              onClick={handleProfileSetup}
-              disabled={!profileName.trim() || saveProfile.isPending}
-              className="h-11 px-8 font-semibold login-button-gradient text-white"
+              onClick={handleLogin}
+              disabled={isLoggingIn}
+              className="w-full h-11 text-base font-medium bg-gradient-to-r from-gradient-accent-start to-gradient-accent-end hover:opacity-90 text-white shadow-soft transition-all"
+              size="lg"
             >
-              {saveProfile.isPending ? (
+              {isLoggingIn ? (
                 <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Saving...
+                  <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                  Authenticating...
                 </>
               ) : (
-                <>
-                  Continue
-                  <Sparkles className="ml-2 h-4 w-4" />
-                </>
+                'Sign In with Internet Identity'
               )}
             </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-    </div>
+
+            <div className="flex items-center justify-center gap-2 pt-2">
+              <div className="h-px flex-1 bg-border" />
+              <p className="text-xs text-center text-muted-foreground">
+                Secure Authentication
+              </p>
+              <div className="h-px flex-1 bg-border" />
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Profile Setup Dialog */}
+        <Dialog open={showProfileSetup} onOpenChange={setShowProfileSetup}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle className="text-xl">Complete Your Profile</DialogTitle>
+              <DialogDescription>
+                Please enter your name to complete the setup process.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="space-y-4 py-4">
+              <div className="space-y-2">
+                <Label htmlFor="profile-name" className="text-sm font-medium">Full Name</Label>
+                <Input
+                  id="profile-name"
+                  placeholder="Enter your full name"
+                  value={profileName}
+                  onChange={(e) => setProfileName(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && profileName.trim()) {
+                      handleProfileSetup();
+                    }
+                  }}
+                  className="h-10"
+                />
+              </div>
+            </div>
+            <DialogFooter>
+              <Button
+                onClick={handleProfileSetup}
+                disabled={!profileName.trim() || saveProfile.isPending}
+                className="h-10 px-6 font-medium bg-gradient-to-r from-gradient-accent-start to-gradient-accent-end hover:opacity-90 text-white"
+              >
+                {saveProfile.isPending ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Saving...
+                  </>
+                ) : (
+                  'Continue'
+                )}
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+
+        {/* Agent Registration Dialog */}
+        {showAgentRegistration && (
+          <AgentRegistrationForm
+            open={showAgentRegistration}
+            onOpenChange={setShowAgentRegistration}
+            onSuccess={handleRegistrationSuccess}
+          />
+        )}
+      </div>
+    </PageTheme>
   );
 }
-

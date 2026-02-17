@@ -106,16 +106,26 @@ actor {
     role : Text;
   };
 
+  public type SelfRegistration = {
+    name : Text;
+    mobile : Text;
+    photo : Storage.ExternalBlob;
+    status : AgentStatus;
+    principal : Principal;
+  };
+
   // State storage
   let agents = Map.empty<Principal, Agent>();
   let leads = Map.empty<Nat, Lead>();
   let owners = Map.empty<Nat, Owner>();
   let followUps = Map.empty<Nat, FollowUp>();
   let userProfiles = Map.empty<Principal, UserProfile>();
-
   var nextLeadId = 1;
   var nextOwnerId = 1;
   var nextFollowUpId = 1;
+
+  // Keep track of created self-registrations
+  let selfRegistrations = Map.empty<Text, SelfRegistration>();
 
   // User Profile Management
   public query ({ caller }) func getCallerUserProfile() : async ?UserProfile {
@@ -245,6 +255,51 @@ actor {
       };
       case (null) { Runtime.trap("Agent not found") };
     };
+  };
+
+  // Self-registration function - requires authenticated user
+  public shared ({ caller }) func registerAsAgent(name : Text, mobile : Text, photo : Storage.ExternalBlob) : async Principal {
+    // Require authenticated user (not guest/anonymous)
+    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
+      Runtime.trap("Unauthorized: Only authenticated users can register as agents");
+    };
+
+    // Check if already registered
+    switch (agents.get(caller)) {
+      case (?_) {
+        Runtime.trap("Already registered: You have already registered as an agent");
+      };
+      case (null) {
+        // Proceed with registration
+      };
+    };
+
+    let agentId = caller;
+    let newAgent : Agent = {
+      id = agentId;
+      name;
+      mobile;
+      photo;
+      status = #pending;
+    };
+    agents.add(agentId, newAgent);
+    agentId;
+  };
+
+  // New function to get pending agents (for admin portal)
+  public query ({ caller }) func getPendingAgents() : async [Agent] {
+    if (not (AccessControl.hasPermission(accessControlState, caller, #admin))) {
+      Runtime.trap("Unauthorized: Only admins can view pending agents");
+    };
+    let pendingAgents = agents.values().toArray().filter(
+      func(agent) {
+        switch (agent.status) {
+          case (#pending) { true };
+          case (_) { false };
+        };
+      }
+    );
+    pendingAgents.sort(Agent.compareByName);
   };
 
   // Lead Management

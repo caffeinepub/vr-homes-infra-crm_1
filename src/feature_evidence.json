@@ -2,8 +2,8 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-update-the-unified-login-page-ui-to-be-more-colorful-while-keeping-all-existing-login-behavior-unchanged-internet-identity-sign-in-admin-agent-toggle-loading-state-and-profile-setup-dialog-use-a-vibrant-multi-color-gradient-background-improved-visual-hierarchy-and-stronger-accent-colors-for-the-icon-card-toggle-section-and-primary-sign-in-button-ensuring-readability-and-accessibility-in-both-light-and-dark-themes",
-      "featureTitle": "Update the unified login page UI to be more colorful while keeping all existing login behavior unchanged (Internet Identity sign-in, Admin/Agent toggle, loading state, and profile-setup dialog). Use a vibrant multi-color gradient background, improved visual hierarchy, and stronger accent colors for the icon, card, toggle section, and primary sign-in button, ensuring readability and accessibility in both light and dark themes.",
+      "featureId": "feature-update-the-login-page-theme-styling-to-be-clearly-more-colorful-while-keeping-all-existing-login-behavior-unchanged-internet-identity-sign-in-admin-agent-toggle-loading-state-profile-setup-dialog-and-agent-registration-dialog-this-must-be-implemented-via-theme-tokens-css-and-existing-components-so-the-layout-and-logic-remain-the-same",
+      "featureTitle": "Update the Login page theme styling to be clearly more colorful while keeping all existing login behavior unchanged (Internet Identity sign-in, Admin/Agent toggle, loading state, profile setup dialog, and agent registration dialog). This must be implemented via theme tokens/CSS and existing components so the layout and logic remain the same.",
       "files": [
         "frontend/src/index.css",
         "frontend/src/pages/LoginPage.tsx"
@@ -19,7 +19,32 @@
         "github-export-icp-cli@1.0.0"
       ],
       "testIds": [
-        "REQ-8"
+        "REQ-22"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-make-primary-headings-across-the-app-e-g-page-titles-and-section-headers-more-colorful-and-higher-contrast-using-a-consistent-theme-driven-style-including-the-login-page-title-and-the-admin-agent-dashboard-titles-without-changing-any-page-structure-or-text-content",
+      "featureTitle": "Make primary headings across the app (e.g., page titles and section headers) more colorful and higher-contrast using a consistent theme-driven style, including the Login page title and the Admin/Agent dashboard titles, without changing any page structure or text content.",
+      "files": [
+        "frontend/src/components/layout/AppLayout.tsx",
+        "frontend/src/index.css",
+        "frontend/src/pages/LoginPage.tsx",
+        "frontend/src/pages/admin/AdminDashboardPage.tsx",
+        "frontend/src/pages/agent/AgentDashboardPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "user-approval@3.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-23"
       ],
       "confidence": "high"
     }

@@ -121,10 +121,12 @@ export interface backendInterface {
     getCallerUserRole(): Promise<UserRole>;
     getLead(leadId: bigint): Promise<Lead>;
     getOwner(ownerId: bigint): Promise<Owner>;
+    getPendingAgents(): Promise<Array<Agent>>;
     getUserProfile(user: Principal): Promise<UserProfile | null>;
     isCallerAdmin(): Promise<boolean>;
     isCallerApproved(): Promise<boolean>;
     listApprovals(): Promise<Array<UserApprovalInfo>>;
+    registerAsAgent(name: string, mobile: string, photo: ExternalBlob): Promise<Principal>;
     requestApproval(): Promise<void>;
     saveCallerUserProfile(profile: UserProfile): Promise<void>;
     setApproval(user: Principal, status: ApprovalStatus): Promise<void>;

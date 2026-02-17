@@ -38,7 +38,7 @@ export default function AdminOverviewPanel() {
   return (
     <div className="space-y-6">
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card>
+        <Card className="bg-card/50">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Leads</CardTitle>
             <TrendingUp className="h-4 w-4 text-muted-foreground" />
@@ -49,7 +49,7 @@ export default function AdminOverviewPanel() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-card/50">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Active Agents</CardTitle>
             <Users className="h-4 w-4 text-muted-foreground" />
@@ -60,7 +60,7 @@ export default function AdminOverviewPanel() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-card/50">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
             <DollarSign className="h-4 w-4 text-muted-foreground" />
@@ -71,7 +71,7 @@ export default function AdminOverviewPanel() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-card/50">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Pending Follow-ups</CardTitle>
             <Calendar className="h-4 w-4 text-muted-foreground" />
@@ -83,7 +83,7 @@ export default function AdminOverviewPanel() {
         </Card>
       </div>
 
-      <Card>
+      <Card className="bg-card/50">
         <CardHeader>
           <CardTitle>Sales vs Rent Trends</CardTitle>
         </CardHeader>

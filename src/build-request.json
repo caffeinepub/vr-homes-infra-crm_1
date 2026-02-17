@@ -1,38 +1,55 @@
 {
   "kind": "build_request",
-  "title": "Make the login page more colorful",
+  "title": "Make Login Page and Headings More Colorful",
   "projectName": "VR Homes Infra CRM",
   "priority": "normal",
   "requirements": [
     {
-      "id": "REQ-8",
-      "text": "Update the unified login page UI to be more colorful while keeping all existing login behavior unchanged (Internet Identity sign-in, Admin/Agent toggle, loading state, and profile-setup dialog). Use a vibrant multi-color gradient background, improved visual hierarchy, and stronger accent colors for the icon, card, toggle section, and primary sign-in button, ensuring readability and accessibility in both light and dark themes.",
+      "id": "REQ-22",
+      "text": "Update the Login page theme styling to be clearly more colorful while keeping all existing login behavior unchanged (Internet Identity sign-in, Admin/Agent toggle, loading state, profile setup dialog, and agent registration dialog). This must be implemented via theme tokens/CSS and existing components so the layout and logic remain the same.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-4"
+          "msg-3"
         ],
         "quotes": [
-          "Make login page colourfull"
+          "Make the colourfull the headings / login page also should be colourful"
         ]
       },
       "acceptanceCriteria": [
-        "The login page at route '/' uses a noticeably more colorful design (e.g., multi-color gradient background and colorful accents) compared to the current mostly-neutral styling.",
-        "All existing login functionality remains unchanged: Admin/Agent toggle works, “Sign In with Internet Identity” triggers the same login flow, the loading spinner view still renders correctly, and the profile setup dialog still opens and saves as before.",
-        "The page remains responsive (mobile to desktop) and text/controls remain legible with sufficient contrast in both light and dark themes.",
-        "Changes are implemented by modifying the login page styling in frontend/src/pages/LoginPage.tsx (and any necessary non-immutable styling utilities), without editing any files under frontend/src/components/ui or other immutable paths."
+        "Login screen background (PageTheme variant=\"login\") renders a visibly colorful background (e.g., gradient) in both light and dark mode with no white/un-styled gaps around the viewport.",
+        "All existing Login page user flows remain unchanged: Admin/Agent toggle still works, Internet Identity sign-in still works, loading screen still appears, profile setup dialog still appears when required, and agent registration dialog still appears when applicable.",
+        "The Login card content remains readable over the new colorful background (text contrast is acceptable in light and dark modes)."
+      ]
+    },
+    {
+      "id": "REQ-23",
+      "text": "Make primary headings across the app (e.g., page titles and section headers) more colorful and higher-contrast using a consistent theme-driven style, including the Login page title and the Admin/Agent dashboard titles, without changing any page structure or text content.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-3"
+        ],
+        "quotes": [
+          "Make the colourfull the headings / login page also should be colourful"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Login page title (\"VR Homes Infra CRM\") and dashboard titles (e.g., \"Admin Dashboard\", \"Agent Dashboard\") use a visibly more colorful heading style (e.g., accent/gradient text or accent underline) driven by theme tokens (not hard-coded one-off colors).",
+        "Heading styling remains readable and consistent in both light and dark mode (no low-contrast heading text).",
+        "No changes to routing, authentication logic, backend calls, or role/status enforcement are introduced by the heading styling updates."
       ]
     }
   ],
   "constraints": [
-    "Do not modify files listed under frontend.immutablePaths (including frontend/src/components/ui/* and the authentication hooks).",
-    "Do not change authentication, routing, or backend behavior; this request is strictly visual styling for the login page.",
-    "Use English for all user-facing text (no text changes required unless needed for readability)."
+    "Do not change any authentication/onboarding behavior or routing logic; changes must be styling/theme only.",
+    "Do not edit any frontend immutable paths (frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, frontend/src/components/ui/*).",
+    "Use English for all user-facing text (do not introduce non-English strings)."
   ],
   "nonGoals": [
-    "Redesigning admin or agent dashboard pages.",
-    "Adding new authentication providers or changing Internet Identity behavior.",
-    "Changing backend schemas or endpoints."
+    "Backend changes (Motoko actor APIs, state, or authorization rules).",
+    "Adding new pages, new roles, or altering Admin/Agent access rules.",
+    "Introducing new third-party UI libraries or changing the routing/layout structure."
   ],
   "imageRequirements": {
     "required": [],

@@ -33,7 +33,7 @@ export default function AgentOverviewPanel() {
 
   return (
     <div className="grid gap-4 md:grid-cols-3">
-      <Card>
+      <Card className="bg-card/50">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">My Leads</CardTitle>
           <TrendingUp className="h-4 w-4 text-muted-foreground" />
@@ -44,7 +44,7 @@ export default function AgentOverviewPanel() {
         </CardContent>
       </Card>
 
-      <Card>
+      <Card className="bg-card/50">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">My Owners</CardTitle>
           <Users className="h-4 w-4 text-muted-foreground" />
@@ -55,7 +55,7 @@ export default function AgentOverviewPanel() {
         </CardContent>
       </Card>
 
-      <Card>
+      <Card className="bg-card/50">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Follow-ups Today</CardTitle>
           <Calendar className="h-4 w-4 text-muted-foreground" />

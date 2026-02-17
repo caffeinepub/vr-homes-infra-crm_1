@@ -142,6 +142,23 @@ export function useUpdateAgentStatus() {
   });
 }
 
+// Agent Self-Registration
+export function useRegisterAsAgent() {
+  const { actor } = useActor();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (data: { name: string; mobile: string; photo: ExternalBlob }) => {
+      if (!actor) throw new Error('Actor not available');
+      return actor.registerAsAgent(data.name, data.mobile, data.photo);
+    },
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({ queryKey: ['agents'] });
+      queryClient.invalidateQueries({ queryKey: ['agent'] });
+    },
+  });
+}
+
 // Lead Queries
 export function useGetAllLeads() {
   const { actor, isFetching: actorFetching } = useActor();
@@ -463,31 +480,17 @@ export function useUpdateFollowUp() {
   });
 }
 
-// Approval Queries
-export function useListApprovals() {
-  const { actor, isFetching: actorFetching } = useActor();
-
-  return useQuery({
-    queryKey: ['approvals'],
-    queryFn: async () => {
-      if (!actor) throw new Error('Actor not available');
-      return actor.listApprovals();
-    },
-    enabled: !!actor && !actorFetching,
-  });
-}
-
-export function useSetApproval() {
+export function useDeleteFollowUp() {
   const { actor } = useActor();
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (data: { user: Principal; status: ApprovalStatus }) => {
+    mutationFn: async (followUpId: bigint) => {
       if (!actor) throw new Error('Actor not available');
-      return actor.setApproval(data.user, data.status);
+      return actor.deleteFollowUp(followUpId);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['approvals'] });
+      queryClient.invalidateQueries({ queryKey: ['followUps'] });
     },
   });
 }

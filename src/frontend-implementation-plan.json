@@ -1,27 +1,62 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Colorful gradient refresh for unified login page",
+  "title": "VR Homes Infra CRM – Colorful Login Theme + Theme-Driven Heading Accents",
   "requirements": [
     {
-      "id": "REQ-8",
-      "summary": "Restyle the unified login page with a vibrant multi-color gradient, stronger accents, and improved hierarchy while keeping all login behavior unchanged and ensuring accessibility in light/dark themes.",
+      "id": "REQ-22",
+      "summary": "Make the Login page background/theme clearly more colorful via theme tokens/CSS while keeping all existing login flows and layout unchanged.",
       "acceptanceCriteria": [
-        "The login page at route '/' uses a noticeably more colorful design (e.g., multi-color gradient background and colorful accents) compared to the current mostly-neutral styling.",
-        "All existing login functionality remains unchanged: Admin/Agent toggle works, “Sign In with Internet Identity” triggers the same login flow, the loading spinner view still renders correctly, and the profile setup dialog still opens and saves as before.",
-        "The page remains responsive (mobile to desktop) and text/controls remain legible with sufficient contrast in both light and dark themes.",
-        "Changes are implemented by modifying the login page styling in frontend/src/pages/LoginPage.tsx (and any necessary non-immutable styling utilities), without editing any files under frontend/src/components/ui or other immutable paths."
+        "Login screen background (PageTheme variant=\"login\") renders a visibly colorful background (e.g., gradient) in both light and dark mode with no white/un-styled gaps around the viewport.",
+        "All existing Login page user flows remain unchanged: Admin/Agent toggle still works, Internet Identity sign-in still works, loading screen still appears, profile setup dialog still appears when required, and agent registration dialog still appears when applicable.",
+        "The Login card content remains readable over the new colorful background (text contrast is acceptable in light and dark modes)."
       ],
       "file_operations": [
         {
+          "path": "frontend/src/index.css",
+          "operation": "modify",
+          "description": "Update theme tokens used by PageTheme variant=\"login\" to a visibly colorful background in both light and dark mode (e.g., gradient-based --page-login-bg), and ensure full-viewport coverage without gaps by adjusting the .page-theme-login background behavior (e.g., no-repeat/cover/fixed as needed) while keeping all existing layout intact."
+        },
+        {
           "path": "frontend/src/pages/LoginPage.tsx",
           "operation": "modify",
-          "description": "Update styling only (no logic changes) to introduce a vibrant multi-color gradient background (including the loading state), add subtle decorative gradient overlays/blur effects, and improve visual hierarchy: stronger icon container accents, more defined card surface (border/shine/shadow), more prominent Admin/Agent toggle section styling, and a more colorful primary sign-in button state while preserving current shadcn component usage and all existing behaviors."
-        },
+          "description": "Keep all login logic and structure unchanged; only adjust styling classes as needed to ensure the login card remains readable over the updated colorful login background (e.g., ensure card surface/overlay and text contrast remain acceptable in light and dark modes)."
+        }
+      ]
+    },
+    {
+      "id": "REQ-23",
+      "summary": "Introduce a consistent theme-driven colorful primary heading style and apply it to the Login title and dashboard titles without changing structure or text.",
+      "acceptanceCriteria": [
+        "Login page title (\"VR Homes Infra CRM\") and dashboard titles (e.g., \"Admin Dashboard\", \"Agent Dashboard\") use a visibly more colorful heading style (e.g., accent/gradient text or accent underline) driven by theme tokens (not hard-coded one-off colors).",
+        "Heading styling remains readable and consistent in both light and dark mode (no low-contrast heading text).",
+        "No changes to routing, authentication logic, backend calls, or role/status enforcement are introduced by the heading styling updates."
+      ],
+      "file_operations": [
         {
           "path": "frontend/src/index.css",
           "operation": "modify",
-          "description": "Add non-immutable global utility styles (scoped to the login page via a unique class) for gradient/overlay effects and light/dark tuned color tokens to ensure readable contrast and consistent appearance across themes, without altering any immutable UI component styles."
+          "description": "Add theme tokens for heading accents (light/dark) and define a reusable, theme-driven primary heading style class (e.g., gradient text or accent underline) in @layer components so it can be applied consistently across pages without hard-coded one-off colors."
+        },
+        {
+          "path": "frontend/src/pages/LoginPage.tsx",
+          "operation": "modify",
+          "description": "Apply the new theme-driven primary heading style to the login title text (\"VR Homes Infra CRM\") without changing any text content, layout, or login/onboarding behavior."
+        },
+        {
+          "path": "frontend/src/pages/admin/AdminDashboardPage.tsx",
+          "operation": "modify",
+          "description": "Apply the new theme-driven primary heading style to the page title heading (\"Admin Dashboard\") while keeping the page structure and content unchanged."
+        },
+        {
+          "path": "frontend/src/pages/agent/AgentDashboardPage.tsx",
+          "operation": "modify",
+          "description": "Apply the new theme-driven primary heading style to the page title heading (\"Agent Dashboard\") while keeping the page structure and content unchanged."
+        },
+        {
+          "path": "frontend/src/components/layout/AppLayout.tsx",
+          "operation": "modify",
+          "description": "Apply the same theme-driven heading style to the app’s primary brand heading in the header (\"VR Homes Infra CRM\") for consistent heading contrast across the app, without changing any routing/auth/logout behavior."
         }
       ]
     }

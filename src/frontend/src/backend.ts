@@ -214,10 +214,12 @@ export interface backendInterface {
     getCallerUserRole(): Promise<UserRole>;
     getLead(leadId: bigint): Promise<Lead>;
     getOwner(ownerId: bigint): Promise<Owner>;
+    getPendingAgents(): Promise<Array<Agent>>;
     getUserProfile(user: Principal): Promise<UserProfile | null>;
     isCallerAdmin(): Promise<boolean>;
     isCallerApproved(): Promise<boolean>;
     listApprovals(): Promise<Array<UserApprovalInfo>>;
+    registerAsAgent(name: string, mobile: string, photo: ExternalBlob): Promise<Principal>;
     requestApproval(): Promise<void>;
     saveCallerUserProfile(profile: UserProfile): Promise<void>;
     setApproval(user: Principal, status: ApprovalStatus): Promise<void>;
@@ -607,6 +609,20 @@ export class Backend implements backendInterface {
             return from_candid_Owner_n37(this._uploadFile, this._downloadFile, result);
         }
     }
+    async getPendingAgents(): Promise<Array<Agent>> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.getPendingAgents();
+                return from_candid_vec_n39(this._uploadFile, this._downloadFile, result);
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.getPendingAgents();
+            return from_candid_vec_n39(this._uploadFile, this._downloadFile, result);
+        }
+    }
     async getUserProfile(arg0: Principal): Promise<UserProfile | null> {
         if (this.processError) {
             try {
@@ -661,6 +677,20 @@ export class Backend implements backendInterface {
         } else {
             const result = await this.actor.listApprovals();
             return from_candid_vec_n43(this._uploadFile, this._downloadFile, result);
+        }
+    }
+    async registerAsAgent(arg0: string, arg1: string, arg2: ExternalBlob): Promise<Principal> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.registerAsAgent(arg0, arg1, await to_candid_ExternalBlob_n10(this._uploadFile, this._downloadFile, arg2));
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.registerAsAgent(arg0, arg1, await to_candid_ExternalBlob_n10(this._uploadFile, this._downloadFile, arg2));
+            return result;
         }
     }
     async requestApproval(): Promise<void> {

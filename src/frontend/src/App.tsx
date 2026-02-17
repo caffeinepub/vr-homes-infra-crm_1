@@ -64,7 +64,7 @@ function AdminRoute({ children }: { children: React.ReactNode }) {
     return <Navigate to="/access-denied" search={{ reason: 'no-profile' }} />;
   }
 
-  return <AppLayout role="admin">{children}</AppLayout>;
+  return <AppLayout>{children}</AppLayout>;
 }
 
 // Agent route wrapper
@@ -106,7 +106,7 @@ function AgentRoute({ children }: { children: React.ReactNode }) {
     return <Navigate to="/access-denied" search={{ reason: 'inactive' }} />;
   }
 
-  return <AppLayout role="agent">{children}</AppLayout>;
+  return <AppLayout>{children}</AppLayout>;
 }
 
 // Admin dashboard route

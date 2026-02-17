@@ -190,6 +190,7 @@ export const idlService = IDL.Service({
   'getCallerUserRole' : IDL.Func([], [UserRole], ['query']),
   'getLead' : IDL.Func([IDL.Nat], [Lead], ['query']),
   'getOwner' : IDL.Func([IDL.Nat], [Owner], ['query']),
+  'getPendingAgents' : IDL.Func([], [IDL.Vec(Agent)], ['query']),
   'getUserProfile' : IDL.Func(
       [IDL.Principal],
       [IDL.Opt(UserProfile)],
@@ -198,6 +199,11 @@ export const idlService = IDL.Service({
   'isCallerAdmin' : IDL.Func([], [IDL.Bool], ['query']),
   'isCallerApproved' : IDL.Func([], [IDL.Bool], ['query']),
   'listApprovals' : IDL.Func([], [IDL.Vec(UserApprovalInfo)], ['query']),
+  'registerAsAgent' : IDL.Func(
+      [IDL.Text, IDL.Text, ExternalBlob],
+      [IDL.Principal],
+      [],
+    ),
   'requestApproval' : IDL.Func([], [], []),
   'saveCallerUserProfile' : IDL.Func([UserProfile], [], []),
   'setApproval' : IDL.Func([IDL.Principal, ApprovalStatus], [], []),
@@ -435,6 +441,7 @@ export const idlFactory = ({ IDL }) => {
     'getCallerUserRole' : IDL.Func([], [UserRole], ['query']),
     'getLead' : IDL.Func([IDL.Nat], [Lead], ['query']),
     'getOwner' : IDL.Func([IDL.Nat], [Owner], ['query']),
+    'getPendingAgents' : IDL.Func([], [IDL.Vec(Agent)], ['query']),
     'getUserProfile' : IDL.Func(
         [IDL.Principal],
         [IDL.Opt(UserProfile)],
@@ -443,6 +450,11 @@ export const idlFactory = ({ IDL }) => {
     'isCallerAdmin' : IDL.Func([], [IDL.Bool], ['query']),
     'isCallerApproved' : IDL.Func([], [IDL.Bool], ['query']),
     'listApprovals' : IDL.Func([], [IDL.Vec(UserApprovalInfo)], ['query']),
+    'registerAsAgent' : IDL.Func(
+        [IDL.Text, IDL.Text, ExternalBlob],
+        [IDL.Principal],
+        [],
+      ),
     'requestApproval' : IDL.Func([], [], []),
     'saveCallerUserProfile' : IDL.Func([UserProfile], [], []),
     'setApproval' : IDL.Func([IDL.Principal, ApprovalStatus], [], []),

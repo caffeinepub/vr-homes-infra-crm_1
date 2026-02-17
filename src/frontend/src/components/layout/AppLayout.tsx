@@ -1,21 +1,23 @@
+import { ReactNode } from 'react';
 import { useNavigate } from '@tanstack/react-router';
 import { useInternetIdentity } from '../../hooks/useInternetIdentity';
-import { useGetCallerUserProfile } from '../../hooks/useQueries';
+import { useGetCallerUserRole, useGetCallerUserProfile } from '../../hooks/useQueries';
 import { useQueryClient } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
-import { Building2, LogOut, LayoutDashboard, Users, Database, Calendar, FileText } from 'lucide-react';
-import { SiCoffeescript } from 'react-icons/si';
+import { Building2, LogOut, Shield, Users } from 'lucide-react';
+import PageTheme from '../theme/PageTheme';
+import { SiX, SiFacebook, SiLinkedin, SiInstagram } from 'react-icons/si';
 
 interface AppLayoutProps {
-  children: React.ReactNode;
-  role: 'admin' | 'agent';
+  children: ReactNode;
 }
 
-export default function AppLayout({ children, role }: AppLayoutProps) {
+export default function AppLayout({ children }: AppLayoutProps) {
   const navigate = useNavigate();
   const { clear } = useInternetIdentity();
-  const { data: userProfile } = useGetCallerUserProfile();
   const queryClient = useQueryClient();
+  const { data: userRole } = useGetCallerUserRole();
+  const { data: userProfile } = useGetCallerUserProfile();
 
   const handleLogout = async () => {
     await clear();
@@ -23,58 +25,115 @@ export default function AppLayout({ children, role }: AppLayoutProps) {
     navigate({ to: '/' });
   };
 
+  const pageVariant = userRole === 'admin' ? 'admin' : 'agent';
+
   return (
-    <div className="min-h-screen bg-background">
-      <header className="sticky top-0 z-50 w-full border-b bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/60">
-        <div className="container flex h-16 items-center justify-between px-4">
-          <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-2">
-              <Building2 className="h-6 w-6 text-primary" />
-              <span className="text-xl font-bold">VR Homes Infra</span>
-            </div>
-            <div className="hidden md:flex items-center space-x-1 text-sm text-muted-foreground">
-              <span>/</span>
-              <span className="font-medium text-foreground">
-                {role === 'admin' ? 'Admin Dashboard' : 'Agent Dashboard'}
-              </span>
-            </div>
-          </div>
-
-          <div className="flex items-center space-x-4">
-            <div className="text-sm">
-              <span className="text-muted-foreground">Welcome, </span>
-              <span className="font-medium">{userProfile?.name || 'User'}</span>
-            </div>
-            <Button onClick={handleLogout} variant="ghost" size="sm">
-              <LogOut className="h-4 w-4 mr-2" />
-              Logout
-            </Button>
-          </div>
-        </div>
-      </header>
-
-      <main className="container py-6 px-4">{children}</main>
-
-      <footer className="border-t bg-card mt-12">
-        <div className="container py-6 px-4">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
-            <p>© {new Date().getFullYear()} VR Homes Infra CRM. All rights reserved.</p>
-            <p className="flex items-center gap-1">
-              Built with <SiCoffeescript className="h-4 w-4 text-primary" /> using{' '}
-              <a
-                href={`https://caffeine.ai/?utm_source=Caffeine-footer&utm_medium=referral&utm_content=${encodeURIComponent(
-                  window.location.hostname
-                )}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-medium hover:text-foreground transition-colors"
+    <PageTheme variant={pageVariant}>
+      <div className="min-h-screen flex flex-col">
+        <header className="border-b bg-card/80 backdrop-blur-sm sticky top-0 z-50">
+          <div className="container mx-auto px-4 py-3">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-gradient-to-br from-gradient-accent-start to-gradient-accent-end rounded-lg">
+                  <Building2 className="h-6 w-6 text-white" />
+                </div>
+                <div>
+                  <h1 className="text-lg font-bold heading-colorful">VR Homes Infra CRM</h1>
+                  <p className="text-xs text-muted-foreground">
+                    {userProfile?.name || 'User'}
+                    {userRole === 'admin' && (
+                      <span className="ml-2 inline-flex items-center gap-1">
+                        <Shield className="h-3 w-3" />
+                        Admin
+                      </span>
+                    )}
+                    {userRole === 'user' && (
+                      <span className="ml-2 inline-flex items-center gap-1">
+                        <Users className="h-3 w-3" />
+                        Agent
+                      </span>
+                    )}
+                  </p>
+                </div>
+              </div>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleLogout}
+                className="gap-2"
               >
-                caffeine.ai
-              </a>
-            </p>
+                <LogOut className="h-4 w-4" />
+                <span className="hidden sm:inline">Sign Out</span>
+              </Button>
+            </div>
           </div>
-        </div>
-      </footer>
-    </div>
+        </header>
+
+        <main className="flex-1 container mx-auto px-4 py-6">
+          {children}
+        </main>
+
+        <footer className="border-t bg-card/80 backdrop-blur-sm mt-auto">
+          <div className="container mx-auto px-4 py-6">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+              <div className="text-sm text-muted-foreground text-center md:text-left">
+                © {new Date().getFullYear()} VR Homes Infra CRM. All rights reserved.
+              </div>
+              <div className="flex items-center gap-4">
+                <a
+                  href="https://twitter.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                  aria-label="Twitter"
+                >
+                  <SiX className="h-4 w-4" />
+                </a>
+                <a
+                  href="https://facebook.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                  aria-label="Facebook"
+                >
+                  <SiFacebook className="h-4 w-4" />
+                </a>
+                <a
+                  href="https://linkedin.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                  aria-label="LinkedIn"
+                >
+                  <SiLinkedin className="h-4 w-4" />
+                </a>
+                <a
+                  href="https://instagram.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                  aria-label="Instagram"
+                >
+                  <SiInstagram className="h-4 w-4" />
+                </a>
+              </div>
+              <div className="text-sm text-muted-foreground text-center md:text-right">
+                Built with ❤️ using{' '}
+                <a
+                  href={`https://caffeine.ai/?utm_source=Caffeine-footer&utm_medium=referral&utm_content=${encodeURIComponent(
+                    typeof window !== 'undefined' ? window.location.hostname : 'vr-homes-crm'
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary hover:underline font-medium"
+                >
+                  caffeine.ai
+                </a>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </PageTheme>
   );
 }

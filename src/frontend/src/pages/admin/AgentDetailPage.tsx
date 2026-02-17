@@ -4,22 +4,32 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { ArrowLeft, Loader2, TrendingUp } from 'lucide-react';
+import { ArrowLeft, Phone, TrendingUp, Users, Loader2 } from 'lucide-react';
 import { Principal } from '@dfinity/principal';
 import { AgentStatus } from '../../backend';
 
 export default function AgentDetailPage() {
   const { agentId } = useParams({ strict: false }) as { agentId: string };
   const navigate = useNavigate();
-  const principal = Principal.fromText(agentId);
-  const { data: agent, isLoading: agentLoading } = useGetAgentDetails(principal);
-  const { data: leads = [], isLoading: leadsLoading } = useGetAgentLeads(principal);
+  
+  const agentPrincipal = Principal.fromText(agentId);
+  const { data: agent, isLoading: agentLoading } = useGetAgentDetails(agentPrincipal);
+  const { data: leads = [], isLoading: leadsLoading } = useGetAgentLeads(agentPrincipal);
 
   const isLoading = agentLoading || leadsLoading;
 
-  // Calculate conversion rate (leads with status "closed" or "converted")
-  const convertedLeads = leads.filter((l) => l.status.toLowerCase().includes('closed') || l.status.toLowerCase().includes('converted')).length;
-  const conversionRate = leads.length > 0 ? ((convertedLeads / leads.length) * 100).toFixed(1) : '0.0';
+  const getStatusBadge = (status: AgentStatus) => {
+    switch (status) {
+      case AgentStatus.active:
+        return <Badge className="bg-green-600 hover:bg-green-700">Active</Badge>;
+      case AgentStatus.pending:
+        return <Badge className="bg-amber-500 hover:bg-amber-600">Pending</Badge>;
+      case AgentStatus.rejected:
+        return <Badge variant="destructive">Rejected</Badge>;
+      case AgentStatus.inactive:
+        return <Badge variant="outline" className="text-muted-foreground">Inactive</Badge>;
+    }
+  };
 
   if (isLoading) {
     return (
@@ -33,10 +43,10 @@ export default function AgentDetailPage() {
     return (
       <div className="space-y-6">
         <Button variant="ghost" onClick={() => navigate({ to: '/admin' })}>
-          <ArrowLeft className="h-4 w-4 mr-2" />
+          <ArrowLeft className="mr-2 h-4 w-4" />
           Back to Dashboard
         </Button>
-        <Card>
+        <Card className="bg-card/50">
           <CardContent className="py-12 text-center">
             <p className="text-muted-foreground">Agent not found</p>
           </CardContent>
@@ -45,84 +55,66 @@ export default function AgentDetailPage() {
     );
   }
 
-  const getStatusBadge = (status: AgentStatus) => {
-    switch (status) {
-      case AgentStatus.active:
-        return <Badge className="bg-green-500">Active</Badge>;
-      case AgentStatus.pending:
-        return <Badge variant="secondary">Pending</Badge>;
-      case AgentStatus.rejected:
-        return <Badge variant="destructive">Rejected</Badge>;
-      case AgentStatus.inactive:
-        return <Badge variant="outline">Inactive</Badge>;
-    }
-  };
+  const conversionRate = leads.length > 0 
+    ? ((leads.filter(l => l.status === 'Converted').length / leads.length) * 100).toFixed(1)
+    : '0.0';
 
   return (
     <div className="space-y-6">
       <Button variant="ghost" onClick={() => navigate({ to: '/admin' })}>
-        <ArrowLeft className="h-4 w-4 mr-2" />
+        <ArrowLeft className="mr-2 h-4 w-4" />
         Back to Dashboard
       </Button>
 
-      <div className="grid gap-6 md:grid-cols-2">
-        <Card>
+      <div className="grid gap-6 md:grid-cols-3">
+        <Card className="md:col-span-1 bg-card/50">
           <CardHeader>
             <CardTitle>Agent Profile</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="flex items-center space-x-4">
-              <Avatar className="h-20 w-20">
+          <CardContent className="space-y-6">
+            <div className="flex flex-col items-center space-y-4">
+              <Avatar className="h-24 w-24">
                 <AvatarImage src={agent.photo.getDirectURL()} alt={agent.name} />
                 <AvatarFallback className="text-2xl">{agent.name.charAt(0)}</AvatarFallback>
               </Avatar>
-              <div>
-                <h3 className="text-2xl font-bold">{agent.name}</h3>
-                <p className="text-muted-foreground">{agent.mobile}</p>
+              <div className="text-center space-y-2">
+                <h3 className="text-xl font-bold">{agent.name}</h3>
+                {getStatusBadge(agent.status)}
               </div>
             </div>
-            <div className="flex items-center space-x-2">
-              <span className="text-sm font-medium">Status:</span>
-              {getStatusBadge(agent.status)}
+            <div className="space-y-3 pt-4 border-t">
+              <div className="flex items-center space-x-2 text-sm">
+                <Phone className="h-4 w-4 text-muted-foreground" />
+                <span>{agent.mobile}</span>
+              </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle>Lead Conversion Rate</CardTitle>
-            <TrendingUp className="h-4 w-4 text-muted-foreground" />
+        <Card className="md:col-span-2 bg-card/50">
+          <CardHeader>
+            <CardTitle>Performance Metrics</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-4xl font-bold">{conversionRate}%</div>
-            <p className="text-sm text-muted-foreground mt-2">
-              {convertedLeads} converted out of {leads.length} total leads
-            </p>
+            <div className="grid gap-4 md:grid-cols-2">
+              <div className="space-y-2">
+                <div className="flex items-center space-x-2 text-muted-foreground">
+                  <Users className="h-4 w-4" />
+                  <span className="text-sm">Total Leads</span>
+                </div>
+                <p className="text-3xl font-bold">{leads.length}</p>
+              </div>
+              <div className="space-y-2">
+                <div className="flex items-center space-x-2 text-muted-foreground">
+                  <TrendingUp className="h-4 w-4" />
+                  <span className="text-sm">Conversion Rate</span>
+                </div>
+                <p className="text-3xl font-bold">{conversionRate}%</p>
+              </div>
+            </div>
           </CardContent>
         </Card>
       </div>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Performance Summary</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid gap-4 md:grid-cols-3">
-            <div>
-              <p className="text-sm font-medium text-muted-foreground">Total Leads</p>
-              <p className="text-2xl font-bold">{leads.length}</p>
-            </div>
-            <div>
-              <p className="text-sm font-medium text-muted-foreground">Converted Leads</p>
-              <p className="text-2xl font-bold">{convertedLeads}</p>
-            </div>
-            <div>
-              <p className="text-sm font-medium text-muted-foreground">Active Leads</p>
-              <p className="text-2xl font-bold">{leads.length - convertedLeads}</p>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
     </div>
   );
 }
