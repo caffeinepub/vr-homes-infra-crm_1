@@ -1,0 +1,51 @@
+{
+  "kind": "build_request",
+  "title": "Make the login page more colorful",
+  "projectName": "VR Homes Infra CRM",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-8",
+      "text": "Update the unified login page UI to be more colorful while keeping all existing login behavior unchanged (Internet Identity sign-in, Admin/Agent toggle, loading state, and profile-setup dialog). Use a vibrant multi-color gradient background, improved visual hierarchy, and stronger accent colors for the icon, card, toggle section, and primary sign-in button, ensuring readability and accessibility in both light and dark themes.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ],
+        "quotes": [
+          "Make login page colourfull"
+        ]
+      },
+      "acceptanceCriteria": [
+        "The login page at route '/' uses a noticeably more colorful design (e.g., multi-color gradient background and colorful accents) compared to the current mostly-neutral styling.",
+        "All existing login functionality remains unchanged: Admin/Agent toggle works, “Sign In with Internet Identity” triggers the same login flow, the loading spinner view still renders correctly, and the profile setup dialog still opens and saves as before.",
+        "The page remains responsive (mobile to desktop) and text/controls remain legible with sufficient contrast in both light and dark themes.",
+        "Changes are implemented by modifying the login page styling in frontend/src/pages/LoginPage.tsx (and any necessary non-immutable styling utilities), without editing any files under frontend/src/components/ui or other immutable paths."
+      ]
+    }
+  ],
+  "constraints": [
+    "Do not modify files listed under frontend.immutablePaths (including frontend/src/components/ui/* and the authentication hooks).",
+    "Do not change authentication, routing, or backend behavior; this request is strictly visual styling for the login page.",
+    "Use English for all user-facing text (no text changes required unless needed for readability)."
+  ],
+  "nonGoals": [
+    "Redesigning admin or agent dashboard pages.",
+    "Adding new authentication providers or changing Internet Identity behavior.",
+    "Changing backend schemas or endpoints."
+  ],
+  "imageRequirements": {
+    "required": [],
+    "edits": []
+  },
+  "userProfileUpdate": {
+    "goalsToAdd": [],
+    "goalsToRemove": [],
+    "preferencesToAdd": [],
+    "preferencesToRemove": [],
+    "miscToAdd": [],
+    "miscToRemove": [],
+    "fieldsToSet": {},
+    "fieldsToDelete": []
+  }
+}

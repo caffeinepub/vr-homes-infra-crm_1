@@ -1,0 +1,152 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 5,
+  "summary": "VR Homes Infra CRM with role-based unified login (Admin/Agent), admin full-control dashboards (analytics, agent management, master data, global follow-ups, exports) and agent self-managed dashboards (own leads/owners, follow-ups, WhatsApp direct messaging).",
+  "architectural_notes": [
+    "Implement RBAC with two roles (admin, agent) and enforce data partitioning so agents can only access self-created records and their follow-ups.",
+    "Agent authentication must check agent approval status; deny access when status is pending or rejected.",
+    "WhatsApp messaging should be implemented via wa.me deep link with URL-encoded prefilled text (no server-side WhatsApp API assumed).",
+    "Define core entities and required fields: Leads (Name, Mobile, Requirement, Budget, Size, Shifting Date, Remarks), Owners (Name, Mobile, Flat No, Demand, Date, Size, Remarks), Agents (Name, Mobile, Face Image upload, Status Active/Inactive, plus approval status).",
+    "Provide export functionality for admin in CSV/Excel formats for specified reports."
+  ],
+  "known_issues": [],
+  "isFixRequest": false,
+  "existing_features": [
+    {
+      "id": "feature-implement-authentication-using-internet-identity-and-add-a-unified-login-page-with-an-explicit-role-toggle-admin-login-agent-login-after-successful-sign-in-resolve-the-signed-in-user-to-an-application-role-admin-or-agent-and-redirect-accordingly-admins-to-admin-dashboard-agents-to-agent-dashboard-only-if-their-agent-status-is-approved-active-if-agent-status-is-pending-or-rejected-deny-access-with-an-english-error-message-and-do-not-route-into-the-app",
+      "title": "Implement authentication using Internet Identity and add a unified login page with an explicit role toggle (Admin Login | Agent Login). After successful sign-in, resolve the signed-in user to an application role (admin or agent) and redirect accordingly: admins to Admin Dashboard; agents to Agent Dashboard only if their agent status is approved/active; if agent status is pending or rejected, deny access with an English error message and do not route into the app.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-admin-dashboard-with-the-following-panels-1-overview-with-dynamic-graphs-for-sales-vs-rent-trends-and-stat-cards-for-total-leads-active-agents-total-revenue-pending-follow-ups-2-agent-management-with-a-table-photo-name-mobile-status-approve-pending-reject-action-deactivate-reactivate-and-an-agent-detail-view-showing-that-agent-s-lead-conversion-rate-3-master-data-with-full-add-edit-delete-for-leads-and-owners-using-the-specified-fields-4-global-follow-ups-list-with-filters-pending-overdue-completed-5-reports-export-center-with-buttons-to-download-agent-logins-csv-lead-master-report-excel-customer-owner-report-excel",
+      "title": "Implement Admin Dashboard with the following panels: (1) Overview with dynamic graphs for Sales vs Rent trends and stat cards for Total Leads, Active Agents, Total Revenue, Pending Follow-ups; (2) Agent Management with a table (Photo, Name, Mobile, Status Approve/Pending/Reject, Action Deactivate/Reactivate) and an agent detail view showing that agent’s lead conversion rate; (3) Master Data with full Add/Edit/Delete for Leads and Owners using the specified fields; (4) Global Follow-Ups list with filters Pending/Overdue/Completed; (5) Reports/Export Center with buttons to download Agent Logins (CSV), Lead Master Report (Excel), Customer/Owner Report (Excel).",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-agent-dashboard-with-the-following-panels-and-restrictions-1-overview-stat-cards-for-my-leads-my-owners-follow-ups-for-today-2-lead-owner-management-forms-for-add-lead-and-add-owner-using-the-specified-required-fields-3-follow-up-tracker-calendar-and-or-list-showing-only-follow-ups-assigned-to-the-agent-and-visually-highlighting-overdue-items-in-red",
+      "title": "Implement Agent Dashboard with the following panels and restrictions: (1) Overview stat cards for My Leads, My Owners, Follow-ups for Today; (2) Lead & Owner Management forms for Add Lead and Add Owner using the specified required fields; (3) Follow-Up Tracker (calendar and/or list) showing only follow-ups assigned to the agent and visually highlighting overdue items in red.",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-whatsapp-single-click-messaging-links-next-to-lead-owner-mobile-numbers-using-the-exact-wa-me-url-pattern-provided-with-a-pre-filled-english-message-that-includes-the-customer-name-and-vr-homes-infra",
+      "title": "Add WhatsApp single-click messaging links next to Lead/Owner mobile numbers using the exact wa.me URL pattern provided, with a pre-filled English message that includes the customer name and “VR Homes Infra”.",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-agent-onboarding-and-status-management-allow-admins-to-create-approve-reject-agents-and-to-deactivate-reactivate-agents-store-agent-fields-including-name-mobile-face-image-upload-and-status-active-inactive-as-described-and-enforce-status-checks-on-agent-access",
+      "title": "Implement agent onboarding and status management: allow admins to create/approve/reject agents and to deactivate/reactivate agents; store agent fields including Name, Mobile, Face Image (upload), and Status (Active/Inactive) as described, and enforce status checks on agent access.",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-coherent-visual-theme-and-layout-system-for-the-crm-ui-login-dashboards-tables-forms-filters-and-apply-it-consistently-across-all-screens-using-english-for-all-user-facing-text",
+      "title": "Add a coherent visual theme and layout system for the CRM UI (login, dashboards, tables, forms, filters) and apply it consistently across all screens, using English for all user-facing text.",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-unified-login-page-ui-to-be-more-colorful-while-keeping-all-existing-login-behavior-unchanged-internet-identity-sign-in-admin-agent-toggle-loading-state-and-profile-setup-dialog-use-a-vibrant-multi-color-gradient-background-improved-visual-hierarchy-and-stronger-accent-colors-for-the-icon-card-toggle-section-and-primary-sign-in-button-ensuring-readability-and-accessibility-in-both-light-and-dark-themes",
+      "title": "Update the unified login page UI to be more colorful while keeping all existing login behavior unchanged (Internet Identity sign-in, Admin/Agent toggle, loading state, and profile-setup dialog). Use a vibrant multi-color gradient background, improved visual hierarchy, and stronger accent colors for the icon, card, toggle section, and primary sign-in button, ensuring readability and accessibility in both light and dark themes.",
+      "reqIds": [
+        "REQ-8"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Unified login page with Admin/Agent toggle and role-based redirection; block agent access when status is pending or rejected",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Admin dashboard overview with dynamic graphs (Sales vs Rent) and stat cards (Total Leads, Active Agents, Total Revenue, Pending Follow-ups)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "Admin agent management: table (photo, name, mobile, status approve/pending/reject, deactivate/reactivate) and agent deep-dive conversion rate",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-4",
+      "summary": "Admin master data management for Leads and Owners with add/edit/delete and specified fields",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-5",
+      "summary": "Admin global follow-ups list with filters (Pending/Overdue/Completed)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-6",
+      "summary": "Admin reports/export center: download agent logins CSV, lead master Excel, customer/owner Excel",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-7",
+      "summary": "Agent dashboard overview with stat cards (My Leads, My Owners, Follow-ups for Today) limited to self-entered data",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-8",
+      "summary": "Agent lead & owner management forms with required fields and self-only visibility constraints",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-9",
+      "summary": "WhatsApp integration: single-click message link for lead/owner mobile using wa.me URL with prefilled text",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-10",
+      "summary": "Agent follow-up tracker (calendar/list) showing only assigned follow-ups with overdue alerts (red highlight)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-12",
+      "summary": "Create backend data models and APIs for Agents, Leads, Owners, and Follow-ups with role-based authorization enforced server-side. Admins must be able to view and manage all records. Agents must only be able to create and view/update records they created, and only see follow-ups assigned to them.",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-13",
+      "summary": "Update UI styling to make the login page more colorful (enhanced color palette, accents, and visual hierarchy)",
+      "reqIds": [],
+      "status": "pending"
+    }
+  ],
+  "gameProjectType": "none",
+  "projectName": "VR Homes Infra CRM",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

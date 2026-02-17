@@ -1,0 +1,29 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Colorful gradient refresh for unified login page",
+  "requirements": [
+    {
+      "id": "REQ-8",
+      "summary": "Restyle the unified login page with a vibrant multi-color gradient, stronger accents, and improved hierarchy while keeping all login behavior unchanged and ensuring accessibility in light/dark themes.",
+      "acceptanceCriteria": [
+        "The login page at route '/' uses a noticeably more colorful design (e.g., multi-color gradient background and colorful accents) compared to the current mostly-neutral styling.",
+        "All existing login functionality remains unchanged: Admin/Agent toggle works, “Sign In with Internet Identity” triggers the same login flow, the loading spinner view still renders correctly, and the profile setup dialog still opens and saves as before.",
+        "The page remains responsive (mobile to desktop) and text/controls remain legible with sufficient contrast in both light and dark themes.",
+        "Changes are implemented by modifying the login page styling in frontend/src/pages/LoginPage.tsx (and any necessary non-immutable styling utilities), without editing any files under frontend/src/components/ui or other immutable paths."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/LoginPage.tsx",
+          "operation": "modify",
+          "description": "Update styling only (no logic changes) to introduce a vibrant multi-color gradient background (including the loading state), add subtle decorative gradient overlays/blur effects, and improve visual hierarchy: stronger icon container accents, more defined card surface (border/shine/shadow), more prominent Admin/Agent toggle section styling, and a more colorful primary sign-in button state while preserving current shadcn component usage and all existing behaviors."
+        },
+        {
+          "path": "frontend/src/index.css",
+          "operation": "modify",
+          "description": "Add non-immutable global utility styles (scoped to the login page via a unique class) for gradient/overlay effects and light/dark tuned color tokens to ensure readable contrast and consistent appearance across themes, without altering any immutable UI component styles."
+        }
+      ]
+    }
+  ]
+}

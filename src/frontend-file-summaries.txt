@@ -1,0 +1,10 @@
+{
+  "frontend/src/hooks/useQueries.ts": "React Query hooks for all backend operations with double type assertions (via unknown) to resolve type conflicts between @dfinity/agent's Agent type and the backend's Agent interface.",
+  "frontend/src/components/whatsapp/WhatsAppLinkButton.tsx": "Reusable WhatsApp button component that opens wa.me links with pre-filled messages for contacting leads and owners.",
+  "frontend/src/pages/agent/panels/FollowUpTrackerPanel.tsx": "Agent follow-up management panel with list view, create/edit dialogs, and overdue highlighting in red.",
+  "frontend/src/App.tsx": "Main application component with TanStack Router setup, role-based route guards for admin and agent access, and proper agent status checking.",
+  "frontend/src/pages/admin/AgentDetailPage.tsx": "Agent detail page showing profile information, lead conversion rate calculation, and performance metrics.",
+  "frontend/src/main.tsx": "Application entry point with QueryClient, InternetIdentityProvider, and Sonner toast notifications setup.",
+  "frontend/src/index.css": "Global CSS with Tailwind directives, OKLCH color tokens for light/dark themes, and custom colorful login page utilities including animated gradients, glows, and decorative effects.",
+  "frontend/src/pages/LoginPage.tsx": "Login page component with vibrant multi-color animated gradient background, colorful icon container, enhanced Admin/Agent toggle styling, gradient sign-in button, decorative blur orbs, and profile setup dialog with all existing authentication functionality preserved."
+}

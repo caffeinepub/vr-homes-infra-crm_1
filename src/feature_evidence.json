@@ -1,0 +1,27 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-update-the-unified-login-page-ui-to-be-more-colorful-while-keeping-all-existing-login-behavior-unchanged-internet-identity-sign-in-admin-agent-toggle-loading-state-and-profile-setup-dialog-use-a-vibrant-multi-color-gradient-background-improved-visual-hierarchy-and-stronger-accent-colors-for-the-icon-card-toggle-section-and-primary-sign-in-button-ensuring-readability-and-accessibility-in-both-light-and-dark-themes",
+      "featureTitle": "Update the unified login page UI to be more colorful while keeping all existing login behavior unchanged (Internet Identity sign-in, Admin/Agent toggle, loading state, and profile-setup dialog). Use a vibrant multi-color gradient background, improved visual hierarchy, and stronger accent colors for the icon, card, toggle section, and primary sign-in button, ensuring readability and accessibility in both light and dark themes.",
+      "files": [
+        "frontend/src/index.css",
+        "frontend/src/pages/LoginPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "user-approval@3.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-8"
+      ],
+      "confidence": "high"
+    }
+  ]
+}
